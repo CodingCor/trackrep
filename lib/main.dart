@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trackrep/pages/home.dart';
+import 'package:trackrep/pages/timer.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
+  '/timer' : (context) => const Timer(),
 };
 
 ThemeData data = ThemeData(
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'TrackRep',
       theme: data,
       routes: routes,
-      initialRoute: '/home',
+      initialRoute: '/timer',
     );
   }
 }
