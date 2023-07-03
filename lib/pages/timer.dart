@@ -28,24 +28,29 @@ class _TimerState extends State<Timer> {
         title: const Text("Timer Example"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: <Widget>[
-            Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-            Row(
+            colorBackground(),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                TextButton(
-                  onPressed: startOrPause,
-                  child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
+                Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: startOrPause,
+                      child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
+                    ),
+                    (!stopwatch.isRunning) ? TextButton(
+                      onPressed: resetWatch,
+                      child: const Text("Reset"),
+                    ) : Container(),
+                  ]
                 ),
-                (!stopwatch.isRunning) ? TextButton(
-                  onPressed: resetWatch,
-                  child: const Text("Reset"),
-                ) : Container(),
               ]
             ),
-          ]
+          ],
         ),
       ),
     );
@@ -54,35 +59,27 @@ class _TimerState extends State<Timer> {
   ///
   /// Widgets
   ///
+  //
+  Widget colorBackground(){
 
-  Widget timerText(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        const Spacer(),
+    int maxheight = MediaQuery.of(context).size.height.toInt();
+    int flex1 = ((maxheight / (1000 * 60)) * (stopwatch.elapsed.inMilliseconds % (1000 * 60))).toInt();
+    int flex2 = maxheight - flex1;
+
+    return Column(
+      children: <Widget> [
         Expanded(
-          flex: 2,
-          child: Text(getMinutes(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-        ),  
+          flex: flex2,
+          child: Container(),
+        ),
         Expanded(
-          flex: 1,
-          child: Text(":", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-        ),  
-        Expanded(
-          flex: 2,
-          child: Text(getSeconds(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-        ),  
-        Expanded(
-          flex: 1,
-          child: Text(":", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-        ),  
-        Expanded(
-          flex: 2,
-          child: Text(getMilliseconds(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-        ),  
-        const Spacer(),
+          flex: flex1 ,
+          child: Container(
+            color: Colors.lightBlue[200],
+          ),
+        ),
       ]
-    );
+    ); 
   }
 
   ///
@@ -115,23 +112,6 @@ class _TimerState extends State<Timer> {
         setState((){}); 
       }
     });
-  }
-
-  String getMinutes(){
-    return (stopwatch.elapsed.inMinutes).toString().padLeft(2, '0');
-  }
-
-  String getSeconds(){
-    return (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
-  }
-
-  String getMilliseconds(){
-    String milliseconds = (stopwatch.elapsed.inMilliseconds % 1000).toString();
-    if(milliseconds.length > 2){
-      milliseconds = milliseconds.substring(0, 2);
-    }
-    milliseconds = milliseconds.padLeft(2, '0');
-    return milliseconds;
   }
 
   String getTimeString(){
