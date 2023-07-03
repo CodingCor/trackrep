@@ -32,7 +32,6 @@ class _TimerState extends State<Timer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-            timerText(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
