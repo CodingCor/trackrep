@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wakelock/wakelock.dart';
 
 class Timer extends StatefulWidget {
   const Timer({super.key});
@@ -30,12 +31,20 @@ class _TimerState extends State<Timer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(getTimeString()),
-            IconButton(
-              icon: const Icon(Icons.start),
-              onPressed: (){
-                restartStopwatch();
-              },
+            Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+            timerText(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  onPressed: startOrPause,
+                  child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
+                ),
+                (!stopwatch.isRunning) ? TextButton(
+                  onPressed: resetWatch,
+                  child: const Text("Reset"),
+                ) : Container(),
+              ]
             ),
           ]
         ),
@@ -43,12 +52,61 @@ class _TimerState extends State<Timer> {
     );
   }
 
-  void restartStopwatch(){
+  ///
+  /// Widgets
+  ///
+
+  Widget timerText(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        const Spacer(),
+        Expanded(
+          flex: 2,
+          child: Text(getMinutes(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),  
+        Expanded(
+          flex: 1,
+          child: Text(":", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),  
+        Expanded(
+          flex: 2,
+          child: Text(getSeconds(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),  
+        Expanded(
+          flex: 1,
+          child: Text(":", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),  
+        Expanded(
+          flex: 2,
+          child: Text(getMilliseconds(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),  
+        const Spacer(),
+      ]
+    );
+  }
+
+  ///
+  /// MEMBER FUNCTIONS
+  ///
+
+  void startOrPause(){
     if(stopwatch.isRunning){
       stopwatch.stop();
+      Wakelock.disable();
     }else{
       stopwatch.start();
+      Wakelock.enable();
     }
+    setState((){});
+  }
+
+  void resetWatch(){
+    if(stopwatch.isRunning) return;
+
+    stopwatch.stop();
+    stopwatch.reset();
+
     setState((){});
   }
 
@@ -58,6 +116,23 @@ class _TimerState extends State<Timer> {
         setState((){}); 
       }
     });
+  }
+
+  String getMinutes(){
+    return (stopwatch.elapsed.inMinutes).toString().padLeft(2, '0');
+  }
+
+  String getSeconds(){
+    return (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+  }
+
+  String getMilliseconds(){
+    String milliseconds = (stopwatch.elapsed.inMilliseconds % 1000).toString();
+    if(milliseconds.length > 2){
+      milliseconds = milliseconds.substring(0, 2);
+    }
+    milliseconds = milliseconds.padLeft(2, '0');
+    return milliseconds;
   }
 
   String getTimeString(){
@@ -71,7 +146,7 @@ class _TimerState extends State<Timer> {
     String seconds = (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
     String minutes = (stopwatch.elapsed.inMinutes).toString().padLeft(2, '0');
 
-    return "$minutes:$seconds:$milliseconds";
+    return "$minutes:$seconds.$milliseconds";
   }
 
 }
