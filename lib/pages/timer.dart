@@ -31,25 +31,7 @@ class _TimerState extends State<Timer> {
         child: Stack(
           children: <Widget>[
             colorBackground(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: startOrPause,
-                      child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
-                    ),
-                    (!stopwatch.isRunning) ? TextButton(
-                      onPressed: resetWatch,
-                      child: const Text("Reset"),
-                    ) : Container(),
-                  ]
-                ),
-              ]
-            ),
+            timerWidget(),
           ],
         ),
       ),
@@ -80,6 +62,35 @@ class _TimerState extends State<Timer> {
         ),
       ]
     ); 
+  }
+
+  Widget timerWidget(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          child: Container(),
+        ),
+        Expanded(
+          child: Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+        ),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                onPressed: startOrPause,
+                child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
+              ),
+              (!stopwatch.isRunning) ? TextButton(
+                onPressed: resetWatch,
+                child: const Text("Reset"),
+              ) : Container(),
+            ]
+          ),
+        ),
+      ]
+    );
   }
 
   ///
