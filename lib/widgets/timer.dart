@@ -4,10 +4,14 @@ import 'package:wakelock/wakelock.dart';
 class Timer extends StatefulWidget {
   
   final double gradientToMinutes;
+  final bool resetable;
+  final bool pauseable;
 
   const Timer({
     super.key, 
     this.gradientToMinutes = 1.0,
+    this.resetable = true,
+    this.pauseable = true,
   });
 
   @override
@@ -86,14 +90,29 @@ class _TimerState extends State<Timer> {
 
   List<Widget> stopWatchActions(){
     List<Widget> actions = [];
-    actions.add(
-      IconButton(
-        iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
-        onPressed: startOrPause,
-        icon:  Icon((stopwatch.isRunning) ? Icons.pause_outlined : Icons.play_arrow_outlined),
-      ),
-    );
-    if(!stopwatch.isRunning && stopwatch.elapsed.inMilliseconds != 0){
+
+    // start 
+    if(!stopwatch.isRunning){
+      actions.add(
+        IconButton(
+          iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
+          onPressed: startOrPause,
+          icon:  const Icon(Icons.play_arrow_outlined),
+        ),
+      );
+    }
+    // pause
+    if(stopwatch.isRunning && widget.pauseable){
+      actions.add(
+        IconButton(
+          iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
+          onPressed: startOrPause,
+          icon:  const Icon(Icons.pause_outlined),
+        ),
+      );
+    }
+    // reset
+    if(!stopwatch.isRunning && stopwatch.elapsed.inMilliseconds != 0 && widget.resetable){
       actions.add(
         IconButton(
           iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
