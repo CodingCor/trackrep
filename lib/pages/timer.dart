@@ -27,14 +27,7 @@ class _TimerState extends State<Timer> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Timer Example"),
       ),
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            colorBackground(),
-            timerWidget(),
-          ],
-        ),
-      ),
+      body: timer(),
     );
   }
 
@@ -42,6 +35,16 @@ class _TimerState extends State<Timer> {
   /// Widgets
   ///
   //
+  Widget timer(){
+    return Stack(
+      children: <Widget>[
+        colorBackground(),
+        timerWidget(),
+        const Center(child: VerticalDivider(thickness: 1)),
+        const Center(child: Divider(thickness: 1)),
+      ],
+    );
+  }
   Widget colorBackground(){
 
     int maxheight = MediaQuery.of(context).size.height.toInt();
