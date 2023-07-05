@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
 class Timer extends StatefulWidget {
-  const Timer({super.key});
+  
+  final double gradientToMinutes;
+
+  const Timer({
+    super.key, 
+    this.gradientToMinutes = 1.0,
+  });
 
   @override
   State<Timer> createState() => _TimerState();
@@ -42,7 +48,7 @@ class _TimerState extends State<Timer> {
   Widget colorBackground(){
 
     int maxheight = MediaQuery.of(context).size.height.toInt();
-    int flex1 = ((maxheight / (1000 * 60)) * (stopwatch.elapsed.inMilliseconds % (1000 * 60))).toInt();
+    int flex1 = ((maxheight / (1000 * 60 * widget.gradientToMinutes)) * (stopwatch.elapsed.inMilliseconds % (1000 * 60 * widget.gradientToMinutes))).toInt();
     int flex2 = maxheight - flex1;
 
     return Column(
