@@ -69,29 +69,39 @@ class _TimerState extends State<Timer> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Expanded(
-          child: Container(),
-        ),
-        Expanded(
-          child: Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+          child: Center(child: Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
         ),
         Expanded(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextButton(
-                onPressed: startOrPause,
-                child:  Text((stopwatch.isRunning) ? "Stop" : "Start"),
-              ),
-              (!stopwatch.isRunning) ? TextButton(
-                onPressed: resetWatch,
-                child: const Text("Reset"),
-              ) : Container(),
-            ]
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: stopWatchActions(),
           ),
         ),
       ]
     );
   }
+
+  List<Widget> stopWatchActions(){
+    List<Widget> actions = [];
+    actions.add(
+      IconButton(
+        iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
+        onPressed: startOrPause,
+        icon:  Icon((stopwatch.isRunning) ? Icons.pause_outlined : Icons.play_arrow_outlined),
+      ),
+    );
+    if(!stopwatch.isRunning && stopwatch.elapsed.inMilliseconds != 0){
+      actions.add(
+        IconButton(
+          iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
+          onPressed: resetWatch,
+          icon: const Icon(Icons.refresh_outlined),
+        )
+      );
+    }
+    return actions;
+  }
+
 
   ///
   /// MEMBER FUNCTIONS
