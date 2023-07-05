@@ -22,13 +22,7 @@ class _TimerState extends State<Timer> {
     if(stopwatch.isRunning){
       resetStateIn(const Duration(milliseconds: 100));
     }
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Timer Example"),
-      ),
-      body: timer(),
-    );
+    return Expanded( child: timer());
   }
 
   ///
