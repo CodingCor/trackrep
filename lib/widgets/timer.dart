@@ -77,16 +77,24 @@ class _TimerState extends State<Timer> {
 
   Widget timerWidget(){
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center ,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        Expanded(
-          child: Center(child: Text(getTimeString(stopwatch.elapsed), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(color: Colors.red, child: Column(
+              children: <Widget>[
+                Text(maxLines: 1, getTimeString(stopwatch.elapsed), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+                const SizedBox(width: 100, child: Divider(thickness: 4.0, color: Colors.blue)), 
+                (widget.finishTime != null) ? Text(getTimeString(widget.finishTime!), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center) : Container(),
+              ]
+            )),
+          ]
         ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: stopWatchActions(),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: stopWatchActions(),
         ),
       ]
     );
