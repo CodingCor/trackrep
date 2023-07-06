@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: const Column(
         children: <Widget>[
-          Timer( gradientToMinutes: 2, resetable: false),
+          Timer(finishTime: Duration(minutes: 2)),
           Timer(pauseable: false,),
         ]
       ),

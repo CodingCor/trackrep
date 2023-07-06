@@ -3,15 +3,15 @@ import 'package:wakelock/wakelock.dart';
 
 class Timer extends StatefulWidget {
   
-  final double gradientToMinutes;
   final bool resetable;
   final bool pauseable;
+  final Duration? finishTime;
 
   const Timer({
     super.key, 
-    this.gradientToMinutes = 1.0,
     this.resetable = true,
     this.pauseable = true,
+    this.finishTime
   });
 
   @override
@@ -49,10 +49,14 @@ class _TimerState extends State<Timer> {
       ],
     );
   }
+
   Widget colorBackground(){
 
     int maxheight = MediaQuery.of(context).size.height.toInt();
-    int flex1 = ((maxheight / (1000 * 60 * widget.gradientToMinutes)) * (stopwatch.elapsed.inMilliseconds % (1000 * 60 * widget.gradientToMinutes))).toInt();
+
+    int factor = widget.finishTime?.inMilliseconds ?? 1000 * 60;
+
+    int flex1 = ((maxheight / factor) * (stopwatch.elapsed.inMilliseconds % (factor))).toInt();
     int flex2 = maxheight - flex1;
 
     return Column(
@@ -76,7 +80,7 @@ class _TimerState extends State<Timer> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Expanded(
-          child: Center(child: Text(getTimeString(), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
+          child: Center(child: Text(getTimeString(stopwatch.elapsed), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
         ),
         Expanded(
           child: Row(
@@ -157,16 +161,16 @@ class _TimerState extends State<Timer> {
     });
   }
 
-  String getTimeString(){
+  static String getTimeString(Duration time){
 
-    String milliseconds = (stopwatch.elapsed.inMilliseconds % 1000).toString();
+    String milliseconds = (time.inMilliseconds % 1000).toString();
     if(milliseconds.length > 2){
       milliseconds = milliseconds.substring(0, 2);
     }
     milliseconds = milliseconds.padLeft(2, '0');
 
-    String seconds = (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
-    String minutes = (stopwatch.elapsed.inMinutes).toString().padLeft(2, '0');
+    String seconds = (time.inSeconds % 60).toString().padLeft(2, '0');
+    String minutes = (time.inMinutes).toString().padLeft(2, '0');
 
     return "$minutes:$seconds.$milliseconds";
   }
