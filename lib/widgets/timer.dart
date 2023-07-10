@@ -76,26 +76,29 @@ class _TimerState extends State<Timer> {
   }
 
   Widget timerWidget(){
+    List<Widget> timerWidgets = [];
+    timerWidgets.add(
+      Text(getTimeString(stopwatch.elapsed), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
+    );
+
+    if(widget.finishTime != null){
+      timerWidgets.add(const SizedBox(width: 100, child: Divider(thickness: 2.0)));
+      timerWidgets.add(Text(getTimeString(widget.finishTime!), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center));
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center ,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(color: Colors.red, child: Column(
-              children: <Widget>[
-                Text(maxLines: 1, getTimeString(stopwatch.elapsed), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-                const SizedBox(width: 100, child: Divider(thickness: 4.0, color: Colors.blue)), 
-                (widget.finishTime != null) ? Text(getTimeString(widget.finishTime!), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center) : Container(),
-              ]
-            )),
-          ]
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: timerWidgets
+          )
         ),
-        Row(
+        Expanded( child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: stopWatchActions(),
-        ),
+        )),
       ]
     );
   }
