@@ -68,7 +68,7 @@ class _TimerState extends State<Timer> {
         Expanded(
           flex: flex1 ,
           child: Container(
-            color: Colors.lightBlue[200],
+            color: Theme.of(context).colorScheme.inversePrimary ,
           ),
         ),
       ]
@@ -82,7 +82,7 @@ class _TimerState extends State<Timer> {
     );
 
     if(widget.finishTime != null){
-      timerWidgets.add(const SizedBox(width: 100, child: Divider(thickness: 2.0)));
+      timerWidgets.add(SizedBox(width: 100, child: Divider(thickness: 2.0, color: Theme.of(context).colorScheme.onBackground)));
       timerWidgets.add(Text(getTimeString(widget.finishTime!), style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center));
     }
 
