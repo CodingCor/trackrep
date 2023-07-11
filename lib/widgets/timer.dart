@@ -44,8 +44,8 @@ class _TimerState extends State<Timer> {
       children: <Widget>[
         colorBackground(),
         timerWidget(),
-        const Center(child: VerticalDivider(thickness: 1)),
-        const Center(child: Divider(thickness: 1)),
+        //const Center(child: VerticalDivider(thickness: 1)),
+        //const Center(child: Divider(thickness: 1)),
       ],
     );
   }
