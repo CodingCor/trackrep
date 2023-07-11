@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
+///
+/// \brief  controllable timer widget
+///
+/// This widget is a controllable Timer Widget. 
+/// The Timer can be started, stopped and reset if not specified otherwise.
+/// A finishtime can be provided to give a visual indication of the expedted 
+/// end time;
+///
+/// This widget expands to it's parents widget size.
+///
 class Timer extends StatefulWidget {
   
-  final bool resetable;
-  final bool pauseable;
-  final Duration? finishTime;
+  final bool resetable; //< is this timer resetable
+  final bool pauseable; //< is this timer pausable
+  final Duration? finishTime; //< does this timer have a finish indication
 
   const Timer({
     super.key, 
@@ -36,9 +46,8 @@ class _TimerState extends State<Timer> {
   }
 
   ///
-  /// Widgets
+  /// \brief  stacks the background and the timer widget
   ///
-  //
   Widget timer(){
     return Stack(
       children: <Widget>[
@@ -50,6 +59,14 @@ class _TimerState extends State<Timer> {
     );
   }
 
+  ///   
+  /// \brief  this method creates a 2 colored background
+  ///
+  /// The ammount of color depends on the elapsed time in proportion to the
+  /// specified finish time.
+  ///
+  /// \return returns a column containing 2 colored containers
+  ///
   Widget colorBackground(){
 
     int maxheight = MediaQuery.of(context).size.height.toInt();
@@ -75,6 +92,13 @@ class _TimerState extends State<Timer> {
     ); 
   }
 
+  ///
+  /// \brief  contains the logic and ui of the timer itself
+  ///
+  /// this widget contains the time text and all controll icons for the timer.
+  ///
+  /// \return Widget containing the timer
+  ///
   Widget timerWidget(){
     List<Widget> timerWidgets = [];
     timerWidgets.add(
@@ -103,6 +127,9 @@ class _TimerState extends State<Timer> {
     );
   }
 
+  ///
+  /// \brief  contains a list of all available timer actions
+  ///
   List<Widget> stopWatchActions(){
     List<Widget> actions = [];
 
@@ -144,6 +171,11 @@ class _TimerState extends State<Timer> {
   /// MEMBER FUNCTIONS
   ///
 
+  ///
+  /// \brief start or pause the timer
+  /// 
+  /// depending on the running status the timer will be stopped or started
+  ///
   void startOrPause(){
     if(stopwatch.isRunning){
       stopwatch.stop();
@@ -155,6 +187,9 @@ class _TimerState extends State<Timer> {
     setState((){});
   }
 
+  ///
+  /// \brief reset the timer if it is not currently running
+  ///
   void resetWatch(){
     if(stopwatch.isRunning) return;
 
@@ -164,6 +199,11 @@ class _TimerState extends State<Timer> {
     setState((){});
   }
 
+  ///
+  /// \brief  reset the State of the Widget after Duration has elapsed
+  ///
+  /// \param  Duration to wait before setState
+  ///
   void resetStateIn(Duration dur){
     Future.delayed(dur).then( (void para){
       if(mounted){
@@ -172,6 +212,13 @@ class _TimerState extends State<Timer> {
     });
   }
 
+  ///
+  /// \brief  transform a duration to a printable string
+  ///
+  /// \param  Duration to transform
+  ///
+  /// \return formated string
+  ///
   static String getTimeString(Duration time){
 
     String milliseconds = (time.inMilliseconds % 1000).toString();
