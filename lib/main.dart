@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trackrep/pages/home.dart';
+import 'package:trackrep/pages/testpage.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
+  '/test' : (context) => const TestPage(),
 };
 
 ThemeData data = ThemeData(
