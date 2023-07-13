@@ -9,12 +9,18 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
 
+  int selectedItem = 0;
   @override
   Widget build(BuildContext context) {
+
     int elementCount = 100;
     List<Widget> items = [];
     for(int i=0; i < elementCount; i++){
-      items.add(Card(child: Text(i.toString(), style: Theme.of(context).textTheme.displayMedium)));
+      if(i == selectedItem){
+        items.add(card(Colors.lightBlue, i));
+      }else{
+        items.add(card(Colors.white, i));
+      }
     }
     return Scaffold(
       appBar: AppBar(
@@ -22,8 +28,24 @@ class _TestPageState extends State<TestPage> {
         title: const Text("TestPage"),
       ),
       body: ListWheelScrollView(
-        itemExtent: 100.0,
+        itemExtent: 120.0,
+        perspective: 0.000000000001,
         children: items,
+        onSelectedItemChanged: (int value){
+          setState((){
+            selectedItem = value;
+          });
+        },
+      ),
+    );
+  }
+
+  Card card(Color color, int index){
+    return Card(
+      color: color,
+      child: SizedBox(
+        width: 200.0,
+        child: Center(child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium)),
       ),
     );
   }
