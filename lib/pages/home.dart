@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: const Column(
         children: <Widget>[
-          Timer(finishTime: Duration(minutes: 1)),
+          Timer(finishTime: Duration(minutes: 1), text: "Timer"),
           //Timer(pauseable: false,),
         ]
       ),

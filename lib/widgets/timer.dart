@@ -16,12 +16,14 @@ class Timer extends StatefulWidget {
   final bool resetable; //< is this timer resetable
   final bool pauseable; //< is this timer pausable
   final Duration? finishTime; //< does this timer have a finish indication
+  final String? text; //< text to show on the screen
 
   const Timer({
     super.key, 
     this.resetable = true,
     this.pauseable = true,
-    this.finishTime
+    this.finishTime,
+    this.text
   });
 
   @override
@@ -114,10 +116,11 @@ class _TimerState extends State<Timer> {
       crossAxisAlignment: CrossAxisAlignment.center ,
       children: <Widget>[
         Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: timerWidgets
-          )
+          child: Center(child: Text(widget.text ?? "", style: Theme.of(context).textTheme.displayMedium)),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: timerWidgets
         ),
         Expanded( child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -230,7 +233,7 @@ class _TimerState extends State<Timer> {
     String seconds = (time.inSeconds % 60).toString().padLeft(2, '0');
     String minutes = (time.inMinutes).toString().padLeft(2, '0');
 
-    return "$minutes:$seconds.$milliseconds";
+    return '$minutes:$seconds.$milliseconds';
   }
 
 }
