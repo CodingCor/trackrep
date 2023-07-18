@@ -52,11 +52,16 @@ class _TimerState extends State<Timer> {
   ///
   Widget timer(){
     return Stack(
+      fit: StackFit.expand,
       children: <Widget>[
         colorBackground(),
         timerWidget(),
-        //const Center(child: VerticalDivider(thickness: 1)),
-        //const Center(child: Divider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.25, 0.00), child: VerticalDivider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.50, 0.00), child: VerticalDivider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.75, 0.00), child: VerticalDivider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.00, 0.25), child:         Divider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.00, 0.50), child:         Divider(thickness: 1)),
+        const Align(alignment: FractionalOffset(0.00, 0.75), child:         Divider(thickness: 1)),
       ],
     );
   }
@@ -118,10 +123,10 @@ class _TimerState extends State<Timer> {
         Expanded(
           child: Center(child: Text(widget.text ?? "", style: Theme.of(context).textTheme.displayMedium)),
         ),
-        Column(
+        Expanded( child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: timerWidgets
-        ),
+        )),
         Expanded( child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: stopWatchActions(),
