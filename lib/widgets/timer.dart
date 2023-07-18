@@ -44,7 +44,7 @@ class _TimerState extends State<Timer> {
     if(stopwatch.isRunning){
       resetStateIn(const Duration(milliseconds: 100));
     }
-    return Expanded( child: timer());
+    return timer();
   }
 
   ///
