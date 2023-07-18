@@ -10,13 +10,10 @@ class NumberPicker extends StatefulWidget {
 class _NumberPickerState extends State<NumberPicker>{
 
   int selectedItem = 0;
-
+  List<Widget> items = [];
+  
   @override
   Widget build(BuildContext context) {
-    return selector();
-  }
-
-  Widget selector(){
     int elementCount = 100;
     List<Widget> items = [];
     for(int i=0; i < elementCount; i++){
@@ -26,34 +23,45 @@ class _NumberPickerState extends State<NumberPicker>{
         items.add(card(Colors.white, i));
       }
     }
+    return selector();
+  }
+
+  Widget selectorBody(){
     return 
-    Expanded(child: Column(
+    Column(
       children: <Widget>[
         const Spacer(),
-        Expanded(/* flex: 2, */child: Padding(
-          padding: const EdgeInsets.all(12.0), 
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(/*flex: 2,*/ child: Text("Push Ups", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
-              Expanded(/*flex: 1,*/ child: 
-                ListWheelScrollView(
-                  itemExtent: 80.0,
-                  perspective: 0.000000000001,
-                  children: items,
-                  onSelectedItemChanged: (int value){
-                    setState((){
-                      selectedItem = value;
-                    });
-                  },
-                ),
-              ),
-            ]
+        Expanded( 
+          flex: 2, 
+          child: Padding(
+            padding: const EdgeInsets.all(12.0), 
+            child: selector(),
           )
-        )),
+        ),
         const Spacer(),
       ],
-    ));
+    );
+  }
+
+  Widget selector(){
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(flex: 2, child: Text("Push Ups", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
+        Expanded(flex: 1, child: 
+          ListWheelScrollView(
+            itemExtent: 80.0,
+            perspective: 0.000000000001,
+            children: items,
+            onSelectedItemChanged: (int value){
+              setState((){
+                selectedItem = value;
+              });
+            },
+          ),
+        ),
+      ]
+    );
   }
 
   Card card(Color color, int index){
