@@ -23,12 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
         ]
       ),
-      body: const Column(
-        children: <Widget>[
-          Timer(finishTime: Duration(minutes: 1)),
-          //Timer(pauseable: false,),
-        ]
-      ),
+      body: const Timer(),
     );
   }
 }
