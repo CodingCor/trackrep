@@ -56,12 +56,12 @@ class _TimerState extends State<Timer> {
       children: <Widget>[
         colorBackground(),
         timerWidget(),
-        const Align(alignment: FractionalOffset(0.25, 0.00), child: VerticalDivider(thickness: 1)),
-        const Align(alignment: FractionalOffset(0.50, 0.00), child: VerticalDivider(thickness: 1)),
-        const Align(alignment: FractionalOffset(0.75, 0.00), child: VerticalDivider(thickness: 1)),
-        const Align(alignment: FractionalOffset(0.00, 0.25), child:         Divider(thickness: 1)),
-        const Align(alignment: FractionalOffset(0.00, 0.50), child:         Divider(thickness: 1)),
-        const Align(alignment: FractionalOffset(0.00, 0.75), child:         Divider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.25, 0.00), child: VerticalDivider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.50, 0.00), child: VerticalDivider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.75, 0.00), child: VerticalDivider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.00, 0.25), child:         Divider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.00, 0.50), child:         Divider(thickness: 1)),
+        //const Align(alignment: FractionalOffset(0.00, 0.75), child:         Divider(thickness: 1)),
       ],
     );
   }
