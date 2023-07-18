@@ -23,7 +23,7 @@ class _NumberPickerState extends State<NumberPicker>{
         items.add(card(Colors.white, i));
       }
     }
-    return selector();
+    return selectorBody();
   }
 
   Widget selectorBody(){
