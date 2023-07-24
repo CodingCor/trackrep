@@ -18,7 +18,7 @@ class _TestPageState extends State<TestPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("TestPage"),
       ),
-      body: const NumberPicker(),
+      body: const NumberPicker(text: "Pseudo Push Up", initalItem: 12, toNumber: 20, fromNumber: 2),
     );
   }
 }

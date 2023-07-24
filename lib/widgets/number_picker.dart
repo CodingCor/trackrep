@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class NumberPicker extends StatefulWidget {
-  const NumberPicker({super.key});
+  final int fromNumber; 
+  final int? initalItem;
+  final int toNumber;
+  final String text;
+  const NumberPicker({super.key, this.fromNumber=0, this.toNumber=100, this.initalItem, required this.text});
 
   @override
   State<NumberPicker> createState() => _NumberPickerState();
@@ -9,23 +13,26 @@ class NumberPicker extends StatefulWidget {
 
 class _NumberPickerState extends State<NumberPicker>{
 
-  int selectedItem = 0;
+  late final int itemCount;
   List<Widget> items = [];
+  late PageController controller;
+  
+  @override
+  void initState(){
+    super.initState();
+    itemCount = (widget.toNumber - widget.fromNumber);
+    controller = PageController(viewportFraction: 1/4, initialPage: (itemCount-(widget.initalItem ?? 0)));
+  }
   
   @override
   Widget build(BuildContext context) {
-    int elementCount = 100;
-    for(int i = elementCount; i >= 0; i--){
-      if(i == selectedItem){
-        items.add(item(Colors.lightBlue, i));
-      }else{
-        items.add(item(Colors.white, i));
-      }
+    for(int i = widget.toNumber; i >= widget.fromNumber; i--){
+        items.add(item(i));
     }
+
     return layoutVertical();
   }
   
-  PageController controller = PageController(viewportFraction: 1/4, initialPage: (100-12));
   Widget selector(){
     return PageView(
       controller: controller,
@@ -56,7 +63,7 @@ class _NumberPickerState extends State<NumberPicker>{
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(flex: 2, child: Text("Push Ups", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
+        Expanded(flex: 2, child: Text(widget.text, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
         Expanded(flex: 1, child: 
           selector(),
         ),
@@ -64,7 +71,7 @@ class _NumberPickerState extends State<NumberPicker>{
     );
   }
 
-  Widget item(Color color, int index){
+  Widget item(int index){
     return TextButton(
       onPressed: (){
         print("Pressed: $index");
