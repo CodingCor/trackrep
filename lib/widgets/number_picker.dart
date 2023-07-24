@@ -15,16 +15,25 @@ class _NumberPickerState extends State<NumberPicker>{
   @override
   Widget build(BuildContext context) {
     int elementCount = 100;
-    List<Widget> items = [];
     for(int i=0; i < elementCount; i++){
       if(i == selectedItem){
-        items.add(card(Colors.lightBlue, i));
+        items.add(item(Colors.lightBlue, i));
       }else{
-        items.add(card(Colors.white, i));
+        items.add(item(Colors.white, i));
       }
     }
-    return selectorBody();
+    return newTest();
   }
+  
+  PageController controller = PageController(viewportFraction: 1/4, initialPage: 50);
+  Widget newTest(){
+    return PageView(
+      controller: controller,
+      scrollDirection: Axis.vertical,
+      children: items,
+    );
+  }
+
 
   Widget selectorBody(){
     return 
@@ -64,10 +73,10 @@ class _NumberPickerState extends State<NumberPicker>{
     );
   }
 
-  Card card(Color color, int index){
-    return Card(
-      color: color,
-      child: Center(child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium)),
+  Widget item(Color color, int index){
+    return TextButton(
+      onPressed: (){},
+      child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium),
     );
   }
 }
