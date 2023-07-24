@@ -15,18 +15,18 @@ class _NumberPickerState extends State<NumberPicker>{
   @override
   Widget build(BuildContext context) {
     int elementCount = 100;
-    for(int i=0; i < elementCount; i++){
+    for(int i = elementCount; i >= 0; i--){
       if(i == selectedItem){
         items.add(item(Colors.lightBlue, i));
       }else{
         items.add(item(Colors.white, i));
       }
     }
-    return newTest();
+    return layoutVertical();
   }
   
-  PageController controller = PageController(viewportFraction: 1/4, initialPage: 50);
-  Widget newTest(){
+  PageController controller = PageController(viewportFraction: 1/4, initialPage: (100-12));
+  Widget selector(){
     return PageView(
       controller: controller,
       scrollDirection: Axis.vertical,
@@ -35,7 +35,7 @@ class _NumberPickerState extends State<NumberPicker>{
   }
 
 
-  Widget selectorBody(){
+  Widget layoutVertical(){
     return 
     Column(
       children: <Widget>[
@@ -44,7 +44,7 @@ class _NumberPickerState extends State<NumberPicker>{
           flex: 2, 
           child: Padding(
             padding: const EdgeInsets.all(12.0), 
-            child: selector(),
+            child: layoutHorizontal(),
           )
         ),
         const Spacer(),
@@ -52,22 +52,13 @@ class _NumberPickerState extends State<NumberPicker>{
     );
   }
 
-  Widget selector(){
+  Widget layoutHorizontal(){
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(flex: 2, child: Text("Push Ups", style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
         Expanded(flex: 1, child: 
-          ListWheelScrollView(
-            itemExtent: 80.0,
-            perspective: 0.000000000001,
-            children: items,
-            onSelectedItemChanged: (int value){
-              setState((){
-                selectedItem = value;
-              });
-            },
-          ),
+          selector(),
         ),
       ]
     );
@@ -75,7 +66,9 @@ class _NumberPickerState extends State<NumberPicker>{
 
   Widget item(Color color, int index){
     return TextButton(
-      onPressed: (){},
+      onPressed: (){
+        print("Pressed: $index");
+      },
       child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium),
     );
   }
