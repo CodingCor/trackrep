@@ -51,7 +51,12 @@ class _NumberPickerState extends State<NumberPicker>{
           flex: 2, 
           child: Padding(
             padding: const EdgeInsets.all(12.0), 
-            child: layoutHorizontal(),
+            child: Stack(
+              children: [
+                Align(alignment: const FractionalOffset(0.00, 0.50), child: Divider(thickness: 1, color: Theme.of(context).colorScheme.inversePrimary)),
+                layoutHorizontal(),
+              ]
+            ),
           )
         ),
         const Spacer(),
@@ -64,9 +69,7 @@ class _NumberPickerState extends State<NumberPicker>{
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(flex: 2, child: Text(widget.text, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center)),
-        Expanded(flex: 1, child: 
-          selector(),
-        ),
+        Expanded(flex: 1, child: selector(),),
       ]
     );
   }
