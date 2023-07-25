@@ -15,15 +15,21 @@ class Timer extends StatefulWidget {
   
   final bool resetable; //< is this timer resetable
   final bool pauseable; //< is this timer pausable
+  final bool skipable; //< is this timer skipable
   final Duration? finishTime; //< does this timer have a finish indication
   final String? text; //< text to show on the screen
+  final void Function()? onFinish; //< callback on finishtime
+  final void Function()? onSkip; //< callback on skip
 
   const Timer({
     super.key, 
     this.resetable = true,
     this.pauseable = true,
+    this.skipable = false,
     this.finishTime,
-    this.text
+    this.text,
+    this.onFinish,
+    this.onSkip,
   });
 
   @override
@@ -33,6 +39,7 @@ class Timer extends StatefulWidget {
 class _TimerState extends State<Timer> {
   
   Stopwatch stopwatch = Stopwatch();
+  bool onFinishExecuted = false;
 
   @override 
   void initState(){
@@ -92,7 +99,7 @@ class _TimerState extends State<Timer> {
         Expanded(
           flex: flex1 ,
           child: Container(
-            color: Theme.of(context).colorScheme.inversePrimary ,
+            color: (finishTimeReached()) ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.inversePrimary ,
           ),
         ),
       ]
@@ -171,6 +178,16 @@ class _TimerState extends State<Timer> {
         )
       );
     }
+
+    if(widget.skipable){
+      actions.add(
+        IconButton(
+          iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
+          onPressed: widget.onSkip,
+          icon: const Icon(Icons.skip_next_outlined),
+        )
+      );
+    }
     return actions;
   }
 
@@ -203,6 +220,7 @@ class _TimerState extends State<Timer> {
 
     stopwatch.stop();
     stopwatch.reset();
+    onFinishExecuted = false;
 
     setState((){});
   }
@@ -215,9 +233,25 @@ class _TimerState extends State<Timer> {
   void resetStateIn(Duration dur){
     Future.delayed(dur).then( (void para){
       if(mounted){
+        if(widget.finishTime != null && finishTimeReached()){ //invoke onFinish function
+          if(widget.onFinish != null && !onFinishExecuted){
+            onFinishExecuted = true;
+            widget.onFinish!();
+          }
+        }
         setState((){}); 
       }
     });
+  }
+
+  ///
+  /// \brief  returns true if the finish time has been exceeded
+  ///
+  /// \return returns true if finish time is exceeded
+  ///
+  bool finishTimeReached(){
+    if(widget.finishTime != null && widget.finishTime! <= stopwatch.elapsed) return true;
+    return false;
   }
 
   ///
@@ -240,5 +274,6 @@ class _TimerState extends State<Timer> {
 
     return '$minutes:$seconds.$milliseconds';
   }
+
 
 }

@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
         ]
       ),
-      body: const Timer(),
+      body: Timer(finishTime: const Duration(minutes: 1), onFinish: (){print("Finished");}, skipable: true, onSkip: (){print("Skip");}),
     );
   }
 }
