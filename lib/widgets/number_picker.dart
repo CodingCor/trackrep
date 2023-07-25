@@ -77,7 +77,9 @@ class _NumberPickerState extends State<NumberPicker>{
 
   Widget item(int index){
     return TextButton(
-      onPressed: widget.onChoosen,
+      onPressed: (){
+        widget.onChoosen();
+      },
       child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium),
     );
   }
