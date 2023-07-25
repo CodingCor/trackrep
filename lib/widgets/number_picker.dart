@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 class NumberPicker extends StatefulWidget {
   final int fromNumber; 
+  //TODO: intial item is not working correctly
+  // check this with following values:
+  // from: 2
+  // to: 20
+  // initial: 12 (is shown as 14 though)
   final int? initalItem;
   final int toNumber;
   final String text;
