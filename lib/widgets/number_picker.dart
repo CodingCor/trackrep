@@ -5,7 +5,8 @@ class NumberPicker extends StatefulWidget {
   final int? initalItem;
   final int toNumber;
   final String text;
-  const NumberPicker({super.key, this.fromNumber=0, this.toNumber=100, this.initalItem, required this.text});
+  final void Function() onChoosen; //< onPicked Callback
+  const NumberPicker({super.key, this.fromNumber=0, this.toNumber=100, this.initalItem, required this.text, required this.onChoosen});
 
   @override
   State<NumberPicker> createState() => _NumberPickerState();
@@ -76,9 +77,7 @@ class _NumberPickerState extends State<NumberPicker>{
 
   Widget item(int index){
     return TextButton(
-      onPressed: (){
-        print("Pressed: $index");
-      },
+      onPressed: widget.onChoosen,
       child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium),
     );
   }
