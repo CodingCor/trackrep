@@ -99,7 +99,7 @@ class _TimerState extends State<Timer> {
         Expanded(
           flex: flex1 ,
           child: Container(
-            color: (finishTimeReached()) ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.inversePrimary ,
+            color: Theme.of(context).colorScheme.inversePrimary ,
           ),
         ),
       ]
