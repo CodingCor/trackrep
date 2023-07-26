@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
-//TODO: text not centered on screen
-//TODO: timer does not reset between pages
-
 ///
 /// \brief  controllable timer widget
 ///
@@ -46,7 +43,7 @@ class _TimerState extends State<Timer> {
 
   @override 
   void initState(){
-      super.initState();
+    super.initState();
   }
 
   @override
@@ -131,7 +128,7 @@ class _TimerState extends State<Timer> {
       crossAxisAlignment: CrossAxisAlignment.center ,
       children: <Widget>[
         Expanded(
-          child: Center(child: Text(widget.text ?? "", style: Theme.of(context).textTheme.displayMedium)),
+          child: Center(child: Text(textAlign: TextAlign.center, widget.text ?? "", style: Theme.of(context).textTheme.displayMedium)),
         ),
         Expanded( child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -186,7 +183,10 @@ class _TimerState extends State<Timer> {
       actions.add(
         IconButton(
           iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
-          onPressed: widget.onSkip,
+          onPressed: (widget.onSkip == null) ? null : (){
+            resetWatch();
+            widget.onSkip!();
+          },
           icon: const Icon(Icons.skip_next_outlined),
         )
       );
@@ -219,13 +219,12 @@ class _TimerState extends State<Timer> {
   /// \brief reset the timer if it is not currently running
   ///
   void resetWatch(){
-    if(stopwatch.isRunning) return;
 
     stopwatch.stop();
     stopwatch.reset();
     onFinishExecuted = false;
 
-    setState((){});
+    if(mounted)setState((){});
   }
 
   ///
