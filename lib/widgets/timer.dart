@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
 
+//TODO: text not centered on screen
+//TODO: timer does not reset between pages
+
 ///
 /// \brief  controllable timer widget
 ///
