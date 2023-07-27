@@ -25,22 +25,22 @@ class _TestPageState extends State<TestPage> {
 
 
     for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Shrimp Squat", onChoosen: nextPage));
+      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Assisted Pistol Squat", onChoosen: nextPage));
       states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 3), onSkip: nextPage));
     }
 
     for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Wide Pull Up +14kg", onChoosen: nextPage));
+      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Push Up", onChoosen: nextPage));
       states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 3), onSkip: nextPage));
     }
 
     for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "V-Raise", onChoosen: nextPage));
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Pseudo Push Up", onChoosen: nextPage));
+      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Windshield Wipers", onChoosen: nextPage));
+      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Chin Ups - 50lbs", onChoosen: nextPage));
       states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1, seconds: 30), onSkip: nextPage));
     }
 
-    states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Wall Plank March", onChoosen: nextPage));
+    states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "One Legged Plank L", onChoosen: nextPage));
 
     // stretching
     states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Reach Down"));
