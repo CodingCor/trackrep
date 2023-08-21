@@ -1,9 +1,9 @@
-class ExerciseJournalEntry{
+class ExerciseLog{
   DateTime timestamp;
   int value;
   int exercise;
 
-  ExerciseJournalEntry({required this.timestamp, required this.value, required this.exercise});
+  ExerciseLog({required this.timestamp, required this.value, required this.exercise});
 
   Map<String, String> toMap(){
     Map<String, String> map = {};
