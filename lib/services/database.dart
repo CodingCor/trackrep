@@ -44,10 +44,25 @@ class DatabaseConnector{
     return list[0]['name'];
   }
 
+  static Future<List<Map<String, dynamic>>> getExercises() async {
+    List<Map<String, dynamic>> list = await database.query(
+      'exercise'
+    );
+    return list;
+  }
+
   static String dbsql = '''
   create table exercise (
-      id INTEGER primary key ASC,
-      name varchar(60)
+    id INTEGER primary key ASC,
+    name varchar(60) unique 
+  );
+
+  create table exercise_log(
+    logdate date,
+    logtime time,
+    exercise INTEGER,
+    value int,
+    primary(logdate, logtime, exercise)
   );
   ''';
 }
