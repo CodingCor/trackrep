@@ -13,25 +13,25 @@ class DatabaseConnector{
 //      each model should get it's own model class to minimize file size
 //
 //TODO: try creating a DB holding the created Model classes
-  static late Database database;
 
-  static Future<void> init() async {
-    await reset(); // TODO: remove this in production system database should stay the same
-    database = await openDatabase(
+  static Future<Database> getInstance() async {
+    Database database = await openDatabase(
       join(await getDatabasesPath(), 'trackrep.db'),
       onCreate: (Database db, int version) {
         return db.execute(dbsql);
       },
-      version: 1
+      version: 1,
+      singleInstance: true,
     );
+    return database;
   }
 
   static Future<void> insertExercise(Exercise exercise) async {
-    print(jsonEncode(Exercise.toMap(exercise)));
+    Database database = await getInstance();
     await database.insert(
       'exercise',
       Exercise.toMap(exercise),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      conflictAlgorithm: ConflictAlgorithm.ignore
     );
   }
 
@@ -40,6 +40,7 @@ class DatabaseConnector{
   }
 
   static Future<Exercise?> getExercise(int id) async {
+    Database database = await getInstance();
     List<Map<String, dynamic>> list = await database.query(
       'exercise',
       where: "id = ?",
@@ -49,11 +50,14 @@ class DatabaseConnector{
     return Exercise.fromMap(list[0]);
   }
 
-  static Future<List<Map<String, dynamic>>> getExercises() async {
+  static Future<List<Exercise>> getExercises() async{
+    Database database = await getInstance();
     List<Map<String, dynamic>> list = await database.query(
-      'exercise'
+      'exercise',
     );
-    return list;
+
+    List<Exercise> exercises = list.map((Map<String, dynamic> entry){ return Exercise.fromMap(entry);}).toList();
+    return exercises;
   }
 
   static String dbsql = '''

@@ -32,12 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadData()async{
-    await DatabaseConnector.init();
     await DatabaseConnector.insertExercise(Exercise(name: 'Push Up'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));
     await DatabaseConnector.insertExercise(Exercise(name: 'V - Raise'));
 
-    Exercise? exc = await DatabaseConnector.getExercise(1);
-    if(exc != null) debugPrint("${exc.id}|${exc.name}");
+    List<Exercise> exercises = await DatabaseConnector.getExercises();
+    exercises.forEach((Exercise exercise){
+      debugPrint('${exercise.id.toString()}\t${exercise.name}');
+    });
   }
 }
