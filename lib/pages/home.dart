@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trackrep/widgets/timer.dart';
 import 'package:trackrep/services/database.dart';
 
+import 'package:trackrep/models/exercise.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -31,6 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadData()async{
     await DatabaseConnector.init();
-    await DatabaseConnector.insertExercise("Push Up");
+    await DatabaseConnector.insertExercise(Exercise(name: 'Push Up'));
+    await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));
+    await DatabaseConnector.insertExercise(Exercise(name: 'V - Raise'));
+
+    Exercise? exc = await DatabaseConnector.getExercise(1);
+    if(exc != null) debugPrint("${exc.id}|${exc.name}");
   }
 }

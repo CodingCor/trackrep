@@ -4,15 +4,16 @@ class Exercise{
 
   Exercise({this.id, required this.name});
 
-  Map<String, String> toMap(){
-    Map<String, String> map = {};
-    map['name'] = name;
-    if(id != null) map['id'] = id.toString();
+  static Map<String, dynamic> toMap(Exercise exercise){
+    Map<String, dynamic> map = {};
+    map['name'] = exercise.name;
+    if(exercise.id != null) map['id'] = exercise.id;
     return map;
   }
 
-  void fromMap(Map<String, String> data){
-    id = int.tryParse(data['id'] ?? 'x');
-    name = data['name'] ?? '';
+  static Exercise fromMap(Map<String, dynamic> data){
+    int? id = data['id'];
+    String name = data['name'] ?? '';
+    return Exercise(id: id, name: name);
   }
 }

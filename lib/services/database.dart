@@ -1,6 +1,12 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:trackrep/models/exercise.dart';
+import 'package:trackrep/models/exercise_log.dart';
+//TODO: somehow insert is not working anymore
+//
+import 'dart:convert';
+
 class DatabaseConnector{
 //TODO: initialize database here
 //      calls are to be made in their own service classes
@@ -20,12 +26,11 @@ class DatabaseConnector{
     );
   }
 
-  static Future<void> insertExercise(String name) async {
+  static Future<void> insertExercise(Exercise exercise) async {
+    print(jsonEncode(Exercise.toMap(exercise)));
     await database.insert(
       'exercise',
-      {
-        'name' : name,
-      },
+      Exercise.toMap(exercise),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -34,14 +39,14 @@ class DatabaseConnector{
     await deleteDatabase(join(await getDatabasesPath(), 'trackrep.db'));
   }
 
-  static Future<String> getExercise(int id) async {
+  static Future<Exercise?> getExercise(int id) async {
     List<Map<String, dynamic>> list = await database.query(
       'exercise',
       where: "id = ?",
       whereArgs: [id],
     );
-    if(list.isEmpty) return "";
-    return list[0]['name'];
+    if(list.isEmpty) return null;
+    return Exercise.fromMap(list[0]);
   }
 
   static Future<List<Map<String, dynamic>>> getExercises() async {
