@@ -3,28 +3,33 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/exercise_log.dart';
-//TODO: somehow insert is not working anymore
-//
 import 'dart:convert';
 
 class DatabaseConnector{
-//TODO: initialize database here
-//      calls are to be made in their own service classes
-//      each model should get it's own model class to minimize file size
-//
-//TODO: try creating a DB holding the created Model classes
 
   static Future<Database> getInstance() async {
     Database database = await openDatabase(
       join(await getDatabasesPath(), 'trackrep.db'),
-      onCreate: (Database db, int version) {
-        return db.execute(dbsql);
+      onCreate: (Database db, int version) async {
+        for(String table in database_tables){
+          await db.execute(table);
+        }
       },
       version: 1,
       singleInstance: true,
     );
     return database;
   }
+
+  static Future<void> removeDatabase() async{
+    await deleteDatabase(
+      join(await getDatabasesPath(), 'trackrep.db'),
+    );
+  }
+
+  ///
+  ///   Model Exercise Calls
+  ///
 
   static Future<void> insertExercise(Exercise exercise) async {
     Database database = await getInstance();
@@ -60,18 +65,51 @@ class DatabaseConnector{
     return exercises;
   }
 
-  static String dbsql = '''
-  create table exercise (
-    id INTEGER primary key ASC,
-    name varchar(60) unique 
-  );
+  static Future<void> printTables()async {
+    Database database = await getInstance();
+    List<Map<String, dynamic>> query = await database.rawQuery('select * from sqlite_master;');
+    for(Map<String, dynamic> entry in query){
+      print(jsonEncode(entry));
+    }
+  }
 
-  create table exercise_log(
-    logdate date,
-    logtime time,
-    exercise INTEGER,
-    value int,
-    primary(logdate, logtime, exercise)
-  );
-  ''';
+  ///
+  ///   Model ExerciseLog Calls
+  ///
+  static Future<void> insertExerciseLog(ExerciseLog log) async{
+    Database database = await getInstance();
+    await database.insert(
+      'exerciselog',
+      ExerciseLog.toMap(log),
+      conflictAlgorithm: ConflictAlgorithm.ignore
+    );
+  }
+
+  static Future<List<ExerciseLog>> getExerciseLog() async{
+    Database database = await getInstance();
+    List<Map<String, dynamic>> query = await database.query(
+      'exerciselog',
+    );
+    List<ExerciseLog> logs = query.map((Map<String, dynamic> entry){return ExerciseLog.fromMap(entry);}).toList();
+    return logs;
+  }
+
+  static List<String> database_tables = [
+    '''
+    create table exercise (
+      id INTEGER primary key ASC,
+      name varchar(60) unique 
+    );
+    ''' 
+  ,
+    '''
+    create table exerciselog(
+      logdate date,
+      logtime time,
+      exercise INTEGER,
+      value int,
+      primary key (logdate, logtime, exercise)
+    );
+    '''
+  ];
 }

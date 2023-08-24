@@ -5,34 +5,35 @@ class ExerciseLog{
 
   ExerciseLog({required this.timestamp, required this.value, required this.exercise});
 
-  Map<String, String> toMap(){
-    Map<String, String> map = {};
-    map['logdate'] = _toDateString(timestamp);
-    map['logdate'] = _toTimeString(timestamp);
-    map['exercise'] = exercise.toString();
-    map['value'] = value.toString();
+  static Map<String, dynamic> toMap(ExerciseLog log){
+    Map<String, dynamic> map = {};
+    map['logdate'] = ExerciseLog._toDateString(log.timestamp);
+    map['logtime'] = ExerciseLog._toTimeString(log.timestamp);
+    map['exercise'] = log.exercise;
+    map['value'] = log.value;
     return map;
   }
 
-  void fromMap(Map<String, String> data){
-    timestamp = _toTimeStamp(data['logdate'] ?? '', data['time'] ?? ''); 
-    value = int.tryParse(data['value'] ?? '') ?? 0;
-    exercise = int.tryParse(data['exercise'] ?? '') ?? 0; 
+  static ExerciseLog fromMap(Map<String, dynamic> data){
+    DateTime timestamp = _toTimeStamp(data['logdate'] ?? '', data['time'] ?? ''); 
+    int value = data['value'] ?? 0;
+    int exercise = data['exercise'] ?? 0; 
+    return ExerciseLog(timestamp: timestamp, value: value, exercise: exercise);
   }
 
-  String _toDateString(DateTime stamp){
+  static String _toDateString(DateTime stamp){
     String year = stamp.year.toString().padLeft(4, '0');
     String month = stamp.month.toString().padLeft(2, '0');
     String day = stamp.day.toString().padLeft(2, '0');
     return '$year-$month-$day';
   }
-  String _toTimeString(DateTime stamp){
+  static String _toTimeString(DateTime stamp){
     String hour = stamp.hour.toString().padLeft(2, '0');
     String minute = stamp.minute.toString().padLeft(2, '0');
     return '$hour:$minute';
   }
 
-  DateTime _toTimeStamp(String date, String time){
+  static DateTime _toTimeStamp(String date, String time){
     List<String> dateSplit = date.split('-');
     List<String> timeSplit = time.split(':');
 
