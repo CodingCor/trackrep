@@ -104,8 +104,8 @@ class DatabaseConnector{
   ,
     '''
     create table exerciselog(
-      logdate date,
-      logtime time,
+      logdate varchar(10),
+      logtime varcahr(5),
       exercise INTEGER,
       value int,
       primary key (logdate, logtime, exercise)

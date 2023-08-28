@@ -15,7 +15,7 @@ class ExerciseLog{
   }
 
   static ExerciseLog fromMap(Map<String, dynamic> data){
-    DateTime timestamp = _toTimeStamp(data['logdate'] ?? '', data['time'] ?? ''); 
+    DateTime timestamp = _toTimeStamp(data['logdate'] ?? '', data['logtime'] ?? ''); 
     int value = data['value'] ?? 0;
     int exercise = data['exercise'] ?? 0; 
     return ExerciseLog(timestamp: timestamp, value: value, exercise: exercise);
