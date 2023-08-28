@@ -11,7 +11,7 @@ class DatabaseConnector{
     Database database = await openDatabase(
       join(await getDatabasesPath(), 'trackrep.db'),
       onCreate: (Database db, int version) async {
-        for(String table in database_tables){
+        for(String table in databaseTables){
           await db.execute(table);
         }
       },
@@ -94,7 +94,7 @@ class DatabaseConnector{
     return logs;
   }
 
-  static List<String> database_tables = [
+  static List<String> databaseTables = [
     '''
     create table exercise (
       id INTEGER primary key ASC,
