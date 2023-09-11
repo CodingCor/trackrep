@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:trackrep/widgets/number_picker.dart';
 import 'package:trackrep/widgets/timer.dart';
 
+import 'package:trackrep/models/exercise.dart';
+import 'package:trackrep/services/database.dart';
+
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
 
@@ -14,43 +17,14 @@ class _TestPageState extends State<TestPage> {
 
   int currentPage = 0;
   List<Widget> states =  [];
+  List<Exercise> exercises = [];
 
   @override
   void initState(){
     super.initState();
-    // normal workout
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Mountain Climbers"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Jumping Jacks"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage));
-
-
-    for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Assisted Pistol Squat", onChoosen: nextPage));
-      states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 3), onSkip: nextPage));
-    }
-
-    for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Push Up", onChoosen: nextPage));
-      states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 3), onSkip: nextPage));
-    }
-
-    for(int i = 0; i < 4; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Windshield Wipers", onChoosen: nextPage));
-      states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "Chin Ups - 50lbs", onChoosen: nextPage));
-      states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1, seconds: 30), onSkip: nextPage));
-    }
-
-    states.add(NumberPicker(fromNumber: 0, toNumber: 12, text: "One Legged Plank L", onChoosen: nextPage));
-
-    // stretching
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Reach Down"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Stretch Back"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 2), onSkip: nextPage, text: "Wall Sit"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Shoulder on Knee"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Shoulder Standing"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Hip Thrusters"));
-    states.add(Timer(resetable: false, skipable: true, finishTime: const Duration(minutes: 1), onSkip: nextPage, text: "Half Bridge"));
+    loadData();
   }
+
 
   void nextPage(){
     currentPage++;
@@ -62,6 +36,10 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
 
+    if(states.isEmpty){
+      return const CircularProgressIndicator();
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -69,5 +47,47 @@ class _TestPageState extends State<TestPage> {
       ),
       body: states[currentPage]
     );
+  }
+
+  void loadData()async{
+    await DatabaseConnector.reset();
+    await DatabaseConnector.insertExercise(Exercise(name: "Mountain Climbers"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Jumping Jacks"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Assisted Pistol Squat"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Push Up"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Windshield Wipers"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Chin Up - 50lbs"));
+    await DatabaseConnector.insertExercise(Exercise(name: "One Legged Plank L"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Stretching"));
+    exercises = await DatabaseConnector.getExercises();
+
+    //TODO: some exercises require a timer to appear
+    performExercise(exercises[0], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    performExercise(exercises[1], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+
+    //TODO: some exercises require 2 numbers to log
+    performExercise(exercises[2], 12, const Duration(minutes: 3), 1, const Duration(minutes: 3));
+    performExercise(exercises[3], 12, const Duration(minutes: 3), 1, const Duration(minutes: 1, seconds: 30));
+
+    //TODO: super sets need to be supported
+    performExercise(exercises[4], 12, const Duration(minutes: 1, seconds: 30), 1, const Duration(minutes: 1, seconds: 30));
+    performExercise(exercises[5], 12, const Duration(minutes: 1, seconds: 30), 1, const Duration(minutes: 1, seconds: 30));
+    
+    if(mounted){
+      setState((){});
+    }
+  }
+
+  void performExercise(Exercise exercise, int target, Duration restBetween, int sets,Duration restAfter){
+    for(int i=0; i<sets; i++){
+      states.add(NumberPicker(fromNumber: 0, toNumber: target, text: exercise.name, onChoosen: nextPage));
+      if(restBetween.inMicroseconds == 0) continue;
+      states.add(Timer(resetable: false, skipable: true, finishTime: restBetween, onSkip: nextPage,));
+    }
+    if(sets<=0) return;
+    if(restAfter.inMicroseconds == 0) return;
+
+    states.removeLast();    
+    states.add(Timer(resetable: false, skipable: true, finishTime: restAfter, onSkip: nextPage));
   }
 }
