@@ -62,11 +62,11 @@ class _TestPageState extends State<TestPage> {
     exercises = await DatabaseConnector.getExercises();
 
     //TODO: some exercises require a timer to appear
-    performExercise([exercises[0]], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
-    performExercise([exercises[1]], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    //TODO: maxe exercise type timer for timed exercise
+    performExercise([], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    performExercise([], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
 
-    //TODO: some exercises require 2 numbers to log
-    performExercise([exercises[2]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 3));
+    performExercise([exercises[2], exercises[2]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 3));
     performExercise([exercises[3]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 1, seconds: 30));
 
     performExercise([exercises[4], exercises[5]], 12, const Duration(minutes: 1, seconds: 30), 4, const Duration(minutes: 1, seconds: 30));
