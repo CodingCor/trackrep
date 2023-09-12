@@ -32,6 +32,7 @@ class _NumberPickerState extends State<NumberPicker>{
   
   @override
   Widget build(BuildContext context) {
+    items.clear();
     for(int i = widget.toNumber; i >= widget.fromNumber; i--){
         items.add(item(i));
     }

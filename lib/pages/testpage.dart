@@ -62,25 +62,25 @@ class _TestPageState extends State<TestPage> {
     exercises = await DatabaseConnector.getExercises();
 
     //TODO: some exercises require a timer to appear
-    performExercise(exercises[0], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
-    performExercise(exercises[1], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    performExercise([exercises[0]], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    performExercise([exercises[1]], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
 
     //TODO: some exercises require 2 numbers to log
-    performExercise(exercises[2], 12, const Duration(minutes: 3), 1, const Duration(minutes: 3));
-    performExercise(exercises[3], 12, const Duration(minutes: 3), 1, const Duration(minutes: 1, seconds: 30));
+    performExercise([exercises[2]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 3));
+    performExercise([exercises[3]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 1, seconds: 30));
 
-    //TODO: super sets need to be supported
-    performExercise(exercises[4], 12, const Duration(minutes: 1, seconds: 30), 1, const Duration(minutes: 1, seconds: 30));
-    performExercise(exercises[5], 12, const Duration(minutes: 1, seconds: 30), 1, const Duration(minutes: 1, seconds: 30));
+    performExercise([exercises[4], exercises[5]], 12, const Duration(minutes: 1, seconds: 30), 4, const Duration(minutes: 1, seconds: 30));
     
     if(mounted){
       setState((){});
     }
   }
 
-  void performExercise(Exercise exercise, int target, Duration restBetween, int sets,Duration restAfter){
+  void performExercise(List<Exercise> exercises, int target, Duration restBetween, int sets,Duration restAfter){
     for(int i=0; i<sets; i++){
-      states.add(NumberPicker(fromNumber: 0, toNumber: target, text: exercise.name, onChoosen: nextPage));
+      for(Exercise exercise in exercises){
+        states.add(NumberPicker(fromNumber: 0, toNumber: target, text: exercise.name, onChoosen: nextPage));
+      }
       if(restBetween.inMicroseconds == 0) continue;
       states.add(Timer(resetable: false, skipable: true, finishTime: restBetween, onSkip: nextPage,));
     }
