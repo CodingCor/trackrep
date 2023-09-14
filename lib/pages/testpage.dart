@@ -51,8 +51,8 @@ class _TestPageState extends State<TestPage> {
 
   void loadData()async{
     await DatabaseConnector.reset();
-    await DatabaseConnector.insertExercise(Exercise(name: "Mountain Climbers"));
-    await DatabaseConnector.insertExercise(Exercise(name: "Jumping Jacks"));
+    await DatabaseConnector.insertExercise(Exercise(name: "Mountain Climbers", type: 'T'));
+    await DatabaseConnector.insertExercise(Exercise(name: "Jumping Jacks", type: 'T'));
     await DatabaseConnector.insertExercise(Exercise(name: "Assisted Pistol Squat"));
     await DatabaseConnector.insertExercise(Exercise(name: "Push Up"));
     await DatabaseConnector.insertExercise(Exercise(name: "Windshield Wipers"));
@@ -63,8 +63,8 @@ class _TestPageState extends State<TestPage> {
 
     //TODO: some exercises require a timer to appear
     //TODO: maxe exercise type timer for timed exercise
-    performExercise([], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
-    performExercise([], 60, const Duration(minutes: 1), 1, const Duration(minutes: 0));
+    performExercise([exercises[0]], 60, const Duration(minutes: 0), 1, const Duration(minutes: 0));
+    performExercise([exercises[1]], 60, const Duration(minutes: 0), 1, const Duration(minutes: 0));
 
     performExercise([exercises[2], exercises[2]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 3));
     performExercise([exercises[3]], 12, const Duration(minutes: 3), 4, const Duration(minutes: 1, seconds: 30));
@@ -79,7 +79,11 @@ class _TestPageState extends State<TestPage> {
   void performExercise(List<Exercise> exercises, int target, Duration restBetween, int sets,Duration restAfter){
     for(int i=0; i<sets; i++){
       for(Exercise exercise in exercises){
-        states.add(NumberPicker(fromNumber: 0, toNumber: target, text: exercise.name, onChoosen: nextPage));
+        if(exercise.type == 'R'){
+          states.add(NumberPicker(fromNumber: 0, toNumber: target, text: exercise.name, onChoosen: nextPage));
+        }else if(exercise.type == 'T'){
+          states.add(Timer(resetable: false, skipable: true, finishTime: Duration(seconds: target), onSkip: nextPage, text: exercise.name,));
+        }
       }
       if(restBetween.inMicroseconds == 0) continue;
       states.add(Timer(resetable: false, skipable: true, finishTime: restBetween, onSkip: nextPage,));

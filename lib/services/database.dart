@@ -98,7 +98,8 @@ class DatabaseConnector{
     '''
     create table exercise (
       id INTEGER primary key ASC,
-      name varchar(60) unique 
+      type varchar(1),
+      name varchar(60) unique
     );
     ''' 
   ,
