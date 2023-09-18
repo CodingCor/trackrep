@@ -19,8 +19,8 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: <Widget>[
-          IconButton(icon: const Icon(Icons.dataset), onPressed: (){
-            Navigator.pushNamed(context, "/test");
+          IconButton(icon: const Icon(Icons.fitness_center_outlined), onPressed: (){
+            Navigator.pushNamed(context, "/exercises");
           }),
         ]
       ),

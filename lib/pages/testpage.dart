@@ -50,15 +50,6 @@ class _TestPageState extends State<TestPage> {
   }
 
   void loadData()async{
-    await DatabaseConnector.reset();
-    await DatabaseConnector.insertExercise(Exercise(name: "Mountain Climbers", type: 'T'));
-    await DatabaseConnector.insertExercise(Exercise(name: "Jumping Jacks", type: 'T'));
-    await DatabaseConnector.insertExercise(Exercise(name: "Assisted Pistol Squat"));
-    await DatabaseConnector.insertExercise(Exercise(name: "Push Up"));
-    await DatabaseConnector.insertExercise(Exercise(name: "Windshield Wipers"));
-    await DatabaseConnector.insertExercise(Exercise(name: "Chin Up - 50lbs"));
-    await DatabaseConnector.insertExercise(Exercise(name: "One Legged Plank L"));
-    await DatabaseConnector.insertExercise(Exercise(name: "Stretching"));
     exercises = await DatabaseConnector.getExercises();
 
     //TODO: some exercises require a timer to appear

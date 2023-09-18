@@ -8,6 +8,7 @@ class Exercise{
   String type;
 
   static const String defaultType = 'R';
+  static const String timedEventType = 'T';
 
   Exercise({this.id, required this.name, this.type = defaultType});
 
