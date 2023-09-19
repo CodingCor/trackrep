@@ -34,6 +34,10 @@ class _ExerciseListState extends State<ExerciseList>{
         itemBuilder: (BuildContext context, int id) {
           Exercise exercise = exercises[id];
           return Dismissible(
+            onDismissed: (DismissDirection direction)async{
+              await DatabaseConnector.removeExercise(exercises[id].id!);
+              loadData();
+            },
             key: UniqueKey(),
             child:  ListTile(
               title: Text(exercise.name),
@@ -50,7 +54,15 @@ class _ExerciseListState extends State<ExerciseList>{
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   TextField(onChanged: (String value){text = value;}),
-                  Checkbox(value: timedEvent, onChanged: (bool ?value){ timedEvent = value ?? false;}),
+                  TextField(
+                    onChanged: (String value){
+                      if(value == 'T'){
+                        timedEvent = true;
+                      }else{
+                        timedEvent = false;
+                      }
+                    }
+                  ),
                   TextButton(onPressed: saveExercise, child: const Text("Save")),
                 ],
               ),

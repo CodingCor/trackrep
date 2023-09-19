@@ -40,6 +40,15 @@ class DatabaseConnector{
     );
   }
 
+  static Future<void> removeExercise(int exerciseID) async{
+    Database database = await getInstance();
+    await database.delete(
+      'exercise',
+      where: "id = ?",
+      whereArgs: [exerciseID.toString()]
+    );
+  }
+
   static Future<void> reset()async{
     await deleteDatabase(join(await getDatabasesPath(), 'trackrep.db'));
   }
