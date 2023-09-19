@@ -34,12 +34,10 @@ class _ExerciseListState extends State<ExerciseList>{
         itemBuilder: (BuildContext context, int id) {
           Exercise exercise = exercises[id];
           return Dismissible(
-            onDismissed: (DismissDirection direction)async{
-              await DatabaseConnector.removeExercise(exercises[id].id!);
-              loadData();
-            },
+            onDismissed: (DismissDirection direction){removeExercise(id);},
             key: UniqueKey(),
             child:  ListTile(
+              onTap: (){},
               title: Text(exercise.name),
             ),
           );
@@ -80,12 +78,16 @@ class _ExerciseListState extends State<ExerciseList>{
     }
   }
 
+  void removeExercise(int id)async{
+    await DatabaseConnector.removeExercise(exercises[id].id!);
+    loadData();
+  }
+
   void saveExercise()async{
     await DatabaseConnector.insertExercise(Exercise(name: text, type: (timedEvent) ? Exercise.timedEventType : Exercise.defaultType));
     if(mounted){
       Navigator.pop(context);
       loadData();
     }
-
   }
 }
