@@ -21,9 +21,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        leading: IconButton(icon: const Icon(Icons.list), onPressed: (){
+          Navigator.pushNamed(context, "/exercise_log/list");
+        }),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.fitness_center_outlined), onPressed: (){
-            Navigator.pushNamed(context, "/exercises");
+            Navigator.pushNamed(context, "/exercise/list");
           }),
         ]
       ),

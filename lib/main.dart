@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:trackrep/pages/home.dart';
 import 'package:trackrep/pages/testpage.dart';
 import 'package:trackrep/pages/exercise_list.dart';
+import 'package:trackrep/pages/exerciselog_list.dart';
 import 'package:trackrep/pages/perform_exercise.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
   '/test' : (context) => const TestPage(),
-  '/exercises' : (context) => const ExerciseList(),
+  '/exercise/list' : (context) => const ExerciseList(),
+  '/exercise_log/list' : (context) => const ExerciseLogList(),
   '/exercise/perform' : (context) => const PerformExercise(),
 };
 

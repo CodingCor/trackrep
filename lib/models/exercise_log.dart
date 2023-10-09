@@ -7,7 +7,7 @@ class ExerciseLog{
 
   static Map<String, dynamic> toMap(ExerciseLog log){
     Map<String, dynamic> map = {};
-    map['logdate'] = ExerciseLog._toDateString(log.timestamp);
+    map['logdate'] = ExerciseLog.toDateString(log.timestamp);
     map['logtime'] = ExerciseLog._toTimeString(log.timestamp);
     map['exercise'] = log.exercise;
     map['value'] = log.value;
@@ -21,7 +21,7 @@ class ExerciseLog{
     return ExerciseLog(timestamp: timestamp, value: value, exercise: exercise);
   }
 
-  static String _toDateString(DateTime stamp){
+  static String toDateString(DateTime stamp){
     String year = stamp.year.toString().padLeft(4, '0');
     String month = stamp.month.toString().padLeft(2, '0');
     String day = stamp.day.toString().padLeft(2, '0');
