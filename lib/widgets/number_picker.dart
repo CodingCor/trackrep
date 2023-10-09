@@ -10,7 +10,7 @@ class NumberPicker extends StatefulWidget {
   final int? initalItem;
   final int toNumber;
   final String text;
-  final void Function() onChoosen; //< onPicked Callback
+  final void Function(int repetition) onChoosen; //< onPicked Callback
   const NumberPicker({super.key, this.fromNumber=0, this.toNumber=100, this.initalItem, required this.text, required this.onChoosen});
 
   @override
@@ -84,7 +84,7 @@ class _NumberPickerState extends State<NumberPicker>{
   Widget item(int index){
     return TextButton(
       onPressed: (){
-        widget.onChoosen();
+        widget.onChoosen(index);
       },
       child: Text(index.toString(), style: Theme.of(context).textTheme.displayMedium),
     );

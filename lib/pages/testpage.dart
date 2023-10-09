@@ -26,7 +26,7 @@ class _TestPageState extends State<TestPage> {
   }
 
 
-  void nextPage(){
+  void nextPage(int value){
     currentPage++;
     if(currentPage >= states.length) currentPage = states.length-1;
     setState((){});

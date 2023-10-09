@@ -18,8 +18,8 @@ class Timer extends StatefulWidget {
   final bool skipable; //< is this timer skipable
   final Duration? finishTime; //< does this timer have a finish indication
   final String? text; //< text to show on the screen
-  final void Function()? onFinish; //< callback on finishtime
-  final void Function()? onSkip; //< callback on skip
+  final void Function(int seconds)? onFinish; //< callback on finishtime
+  final void Function(int seconds)? onSkip; //< callback on skip
 
   const Timer({
     super.key, 
@@ -185,7 +185,7 @@ class _TimerState extends State<Timer> {
           iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
           onPressed: (widget.onSkip == null) ? null : (){
             resetWatch();
-            widget.onSkip!();
+            widget.onSkip!(stopwatch.elapsed.inSeconds);
           },
           icon: const Icon(Icons.skip_next_outlined),
         )
@@ -238,7 +238,7 @@ class _TimerState extends State<Timer> {
         if(widget.finishTime != null && finishTimeReached()){ //invoke onFinish function
           if(widget.onFinish != null && !onFinishExecuted){
             onFinishExecuted = true;
-            widget.onFinish!();
+            widget.onFinish!(dur.inSeconds);
           }
         }
         setState((){}); 

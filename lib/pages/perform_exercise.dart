@@ -3,6 +3,9 @@ import 'package:trackrep/widgets/number_picker.dart';
 import 'package:trackrep/widgets/timer.dart';
 import 'package:trackrep/models/exercise.dart';
 
+import 'package:trackrep/services/database.dart';
+import 'package:trackrep/models/exercise_log.dart';
+
 class PerformExercise extends StatefulWidget{
   const PerformExercise({super.key}); 
 
@@ -27,7 +30,28 @@ class _PerformExerciseState extends State<PerformExercise>{
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Perform Exercise"),
       ),
-      body: (exercise.type == Exercise.timedEventType) ? NumberPicker(text: exercise.name, onChoosen: (){ Navigator.pop(context);}) : Timer( onFinish: (){ Navigator.pop(context);},),
+      body: (exercise.type == Exercise.defaultType) ? 
+        NumberPicker(
+          text: exercise.name, 
+          onChoosen: (int value){
+            logExercise(exercise, value);
+            Navigator.pop(context);
+          }
+        ) 
+        : 
+        Timer(
+          text: exercise.name, 
+          onFinish: (int seconds){ 
+            logExercise(exercise, seconds);
+            Navigator.pop(context);
+          },
+        ),
     );
+  }
+
+  void logExercise(Exercise exercise, int value)async{
+    if(exercise.id != null){
+      await DatabaseConnector.insertExerciseLog(ExerciseLog(timestamp: DateTime.now(), value: value, exercise: exercise.id!));
+    }
   }
 }
