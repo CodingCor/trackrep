@@ -28,6 +28,17 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Exercise Log"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.delete), 
+            onPressed: ()async{
+              await DatabaseConnector.reset(); 
+              if(mounted){
+                setState((){});
+              }
+            }
+          ), 
+        ],
       ),
       body: ListView(
         children: entries,
