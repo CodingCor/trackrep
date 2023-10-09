@@ -37,7 +37,9 @@ class _ExerciseListState extends State<ExerciseList>{
             onDismissed: (DismissDirection direction){removeExercise(id);},
             key: UniqueKey(),
             child:  ListTile(
-              onTap: (){},
+              onTap: (){
+                Navigator.pushNamed(context, '/exercise/perform', arguments: exercises[id]);
+              },
               title: Text(exercise.name),
             ),
           );
