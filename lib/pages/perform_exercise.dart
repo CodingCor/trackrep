@@ -41,7 +41,9 @@ class _PerformExerciseState extends State<PerformExercise>{
         : 
         Timer(
           text: exercise.name, 
-          onFinish: (int seconds){ 
+          skipable: true,
+          onSkip: (int seconds){ 
+            debugPrint(seconds.toString());
             logExercise(exercise, seconds);
             Navigator.pop(context);
           },

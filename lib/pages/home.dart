@@ -35,7 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadData()async{
-    await DatabaseConnector.reset();
     // exercises michael
     await DatabaseConnector.insertExercise(Exercise(name: 'Shrimp Squat'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));
@@ -70,11 +69,5 @@ class _MyHomePageState extends State<MyHomePage> {
     await DatabaseConnector.insertExercise(Exercise(name: 'Shoulder Stretch Standing', type: Exercise.timedEventType));
     await DatabaseConnector.insertExercise(Exercise(name: 'Hip Thrusters'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Half Bridge'));
-
-    List<ExerciseLog> log = await DatabaseConnector.getExerciseLog();
-
-    for(ExerciseLog logEntry in log){
-      debugPrint("${logEntry.timestamp}-${logEntry.value}-${logEntry.exercise}");
-    }
   }
 }

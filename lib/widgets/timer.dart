@@ -184,8 +184,9 @@ class _TimerState extends State<Timer> {
         IconButton(
           iconSize: (IconTheme.of(context).size ?? 1.0) * 2.0,
           onPressed: (widget.onSkip == null) ? null : (){
+            int elapsedSeconds = stopwatch.elapsed.inSeconds;
             resetWatch();
-            widget.onSkip!(stopwatch.elapsed.inSeconds);
+            widget.onSkip!(elapsedSeconds);
           },
           icon: const Icon(Icons.skip_next_outlined),
         )
