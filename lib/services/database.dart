@@ -103,24 +103,5 @@ class DatabaseConnector{
     return logs;
   }
 
-  static List<String> databaseTables = [
-    '''
-    create table exercise (
-      id INTEGER primary key ASC,
-      type varchar(1),
-      name varchar(60) unique
-    );
-    ''' 
-  ,
-    '''
-    create table exerciselog(
-      timestamp INTEGER,
-      logdate varchar(10),
-      logtime varcahr(5),
-      exercise INTEGER,
-      value int,
-      primary key (timestamp, exercise)
-    );
-    '''
-  ];
+  static List<String> databaseTables = [ Exercise.tableString, ExerciseLog.tableString]; 
 }

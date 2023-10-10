@@ -4,6 +4,18 @@ class ExerciseLog{
   int exercise;
 
   ExerciseLog({required this.timestamp, required this.value, required this.exercise});
+  
+  static const String tableString = 
+  '''
+    create table exerciselog(
+      timestamp INTEGER,
+      logdate varchar(10),
+      logtime varcahr(5),
+      exercise INTEGER,
+      value int,
+      primary key (timestamp, exercise)
+    );
+  ''';
 
   static Map<String, dynamic> toMap(ExerciseLog log){
     Map<String, dynamic> map = {};

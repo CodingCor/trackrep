@@ -7,6 +7,15 @@ class Exercise{
   /// T ... Time based exercise
   String type;
 
+  static const String tableString = 
+  '''
+    create table exercise (
+      id INTEGER primary key ASC,
+      type varchar(1),
+      name varchar(60) unique
+    );
+  ''';
+
   static const String defaultType = 'R';
   static const String timedEventType = 'T';
 
