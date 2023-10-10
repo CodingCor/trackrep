@@ -5,6 +5,14 @@ import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/exercise_log.dart';
 import 'dart:convert';
 
+//TODO: need a way to export the whole database to the device for later import 
+//  path_provider might help to get the download directory of the device
+//  permission_handler might help to get the appropriate permissions for the folder
+//  
+//  export the db as 2 files
+//    one containing the log
+//    one containing the names and type of the exercise
+
 class DatabaseConnector{
 
   static Future<Database> getInstance() async {
