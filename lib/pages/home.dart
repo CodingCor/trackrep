@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadData()async{
+    await DatabaseConnector.reset();
     // exercises michael
     await DatabaseConnector.insertExercise(Exercise(name: 'Shrimp Squat'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));

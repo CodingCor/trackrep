@@ -114,11 +114,12 @@ class DatabaseConnector{
   ,
     '''
     create table exerciselog(
+      timestamp INTEGER,
       logdate varchar(10),
       logtime varcahr(5),
       exercise INTEGER,
       value int,
-      primary key (logdate, logtime, exercise)
+      primary key (timestamp, exercise)
     );
     '''
   ];

@@ -7,6 +7,7 @@ class ExerciseLog{
 
   static Map<String, dynamic> toMap(ExerciseLog log){
     Map<String, dynamic> map = {};
+    map['timestamp'] = log.timestamp.millisecondsSinceEpoch;
     map['logdate'] = ExerciseLog.toDateString(log.timestamp);
     map['logtime'] = ExerciseLog._toTimeString(log.timestamp);
     map['exercise'] = log.exercise;
@@ -15,7 +16,7 @@ class ExerciseLog{
   }
 
   static ExerciseLog fromMap(Map<String, dynamic> data){
-    DateTime timestamp = _toTimeStamp(data['logdate'] ?? '', data['logtime'] ?? ''); 
+    DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(data['timestamp'] ?? 0); 
     int value = data['value'] ?? 0;
     int exercise = data['exercise'] ?? 0; 
     return ExerciseLog(timestamp: timestamp, value: value, exercise: exercise);
@@ -33,27 +34,27 @@ class ExerciseLog{
     return '$hour:$minute';
   }
 
-  static DateTime _toTimeStamp(String date, String time){
-    List<String> dateSplit = date.split('-');
-    List<String> timeSplit = time.split(':');
+  //static DateTime _toTimeStamp(String date, String time){
+  //  List<String> dateSplit = date.split('-');
+  //  List<String> timeSplit = time.split(':');
 
-    int year = 1;
-    int month = 1;
-    int day = 1;
-    int hour = 1;
-    int minute = 1;
+  //  int year = 1;
+  //  int month = 1;
+  //  int day = 1;
+  //  int hour = 1;
+  //  int minute = 1;
 
-    if(dateSplit.length == 3){
-      year =  int.tryParse(dateSplit[0]) ?? 1;
-      month = int.tryParse(dateSplit[1]) ?? 1;
-      day =   int.tryParse(dateSplit[2]) ?? 1;
-    }
-    if(timeSplit.length == 2){
-      hour =    int.tryParse(timeSplit[0]) ?? 1;
-      minute =  int.tryParse(timeSplit[1]) ?? 1;
-    }
+  //  if(dateSplit.length == 3){
+  //    year =  int.tryParse(dateSplit[0]) ?? 1;
+  //    month = int.tryParse(dateSplit[1]) ?? 1;
+  //    day =   int.tryParse(dateSplit[2]) ?? 1;
+  //  }
+  //  if(timeSplit.length == 2){
+  //    hour =    int.tryParse(timeSplit[0]) ?? 1;
+  //    minute =  int.tryParse(timeSplit[1]) ?? 1;
+  //  }
 
-    return DateTime(year, month, day, hour, minute);
-  }
+  //  return DateTime(year, month, day, hour, minute);
+  //}
 
 }
