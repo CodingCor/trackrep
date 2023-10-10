@@ -3,7 +3,6 @@ import 'package:trackrep/widgets/timer.dart';
 
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/models/exercise.dart';
-import 'package:trackrep/models/exercise_log.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
