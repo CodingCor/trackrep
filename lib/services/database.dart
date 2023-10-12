@@ -12,6 +12,10 @@ import 'dart:convert';
 //  export the db as 2 files
 //    one containing the log
 //    one containing the names and type of the exercise
+//
+//    2. idea:
+//
+//    media_store_plus instead of path_provider and permission_handler as downloads folder is not accessible through path_provider as scoped storage is needed
 
 class DatabaseConnector{
 

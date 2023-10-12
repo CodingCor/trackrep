@@ -4,6 +4,9 @@ import 'package:trackrep/widgets/timer.dart';
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/models/exercise.dart';
 
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -34,6 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadData()async{
+    List<Directory>? paths = await getExternalStorageDirectories(type: StorageDirectory.downloads);
+    if(paths != null){
+      for(Directory path in paths){
+        debugPrint(path.path);   
+      }
+      //debugPrint('${path.path}/test.txt');
+      //File file = await File('${path.path}/test.txt').create();
+      //file.writeAsString('Test');
+    }
     // exercises michael
     await DatabaseConnector.insertExercise(Exercise(name: 'Shrimp Squat'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));
