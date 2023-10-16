@@ -4,8 +4,9 @@ import 'package:trackrep/widgets/timer.dart';
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/models/exercise.dart';
 
-import 'dart:io';
+import 'package:media_store_plus/media_store_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -37,15 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadData()async{
-    List<Directory>? paths = await getExternalStorageDirectories(type: StorageDirectory.downloads);
-    if(paths != null){
-      for(Directory path in paths){
-        debugPrint(path.path);   
-      }
-      //debugPrint('${path.path}/test.txt');
-      //File file = await File('${path.path}/test.txt').create();
-      //file.writeAsString('Test');
-    }
+
+    //List<Permission> permissions = [Permission.storage];
+    //await permissions.request();
+    MediaStore store = MediaStore();
+    MediaStore.appFolder = 'trackrep';
+    Directory temp = await getTemporaryDirectory();
+    File file = File('${temp.path}/test.txt');
+    await file.writeAsString('hello world');
+    await file.writeAsString('hello world2', mode: FileMode.append);
+    file.create();
+    await store.saveFile(dirType: DirType.download, dirName: DirName.download, tempFilePath: file.path, relativePath: FilePath.root);
+
     // exercises michael
     await DatabaseConnector.insertExercise(Exercise(name: 'Shrimp Squat'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Wall Hand Stand Push Up'));
