@@ -44,8 +44,16 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
           ), 
           IconButton(
             icon: const Icon(Icons.download), 
-            onPressed: (){
-
+            onPressed: ()async{
+              await saveData();
+              if(mounted){
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) => const AlertDialog(
+                   content: Text('Saved'), 
+                  )
+                );
+              }
             }
           ), 
         ],
@@ -64,35 +72,37 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
     }
   }
 
-  void saveData()async{
+  Future<void> saveData()async{
     
     MediaStore store = MediaStore();
     MediaStore.appFolder = 'trackrep';
 
     Directory temp = await getTemporaryDirectory();
-    //
+
     // exercise  list to download folder
-    File exerciseFile = File('${temp.path}/exercises.csv');
+    File exerciseFile = File('${temp.path}/exercises.txt');
     await exerciseFile.writeAsString('ID; Name; Type\n');
     for(Exercise exercise in exercises){
-      await exerciseFile.writeAsString('${exercise.id};${exercise.name};${exercise.type}\n');
+      await exerciseFile.writeAsString('${exercise.id};${exercise.name};${exercise.type}\n', mode: FileMode.append);
     }
-    exerciseFile.create();
+    await exerciseFile.create();
     await store.saveFile(dirType: DirType.download, dirName: DirName.download, tempFilePath: exerciseFile.path, relativePath: FilePath.root);
 
-    File exerciseLogFile = File('${temp.path}/exercise_log.csv');
+    // exercise log to file
+    File exerciseLogFile = File('${temp.path}/exercise_log.txt');
     await exerciseLogFile.writeAsString('TIMESTAMP;DATE;TIME;Exercise;value\n');
     for(ExerciseLog entry in log){
 
-      await exerciseLogFile.writeAsString('''
-        ${entry.timestamp.millisecondsSinceEpoch};
-        ${ExerciseLog.toDateString(entry.timestamp)};
-        ${ExerciseLog.toTimeString(entry.timestamp)};
-        ${entry.exercise.toString()};
-        ${entry.value.toString()}
-      ''');
+      String line = '';
+      line += '${entry.timestamp.millisecondsSinceEpoch.toString()};';
+      line += '${ExerciseLog.toDateString(entry.timestamp)};';
+      line += '${ExerciseLog.toTimeString(entry.timestamp)};';
+      line += '${entry.exercise.toString()};';
+      line += '${entry.value.toString()}\n';
+
+      await exerciseLogFile.writeAsString(line, mode: FileMode.append);
     }
-    exerciseLogFile.create();
+    await exerciseLogFile.create();
     await store.saveFile(dirType: DirType.download, dirName: DirName.download, tempFilePath: exerciseLogFile.path, relativePath: FilePath.root);
 
   }
