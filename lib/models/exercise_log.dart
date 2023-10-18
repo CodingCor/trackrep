@@ -21,7 +21,7 @@ class ExerciseLog{
     Map<String, dynamic> map = {};
     map['timestamp'] = log.timestamp.millisecondsSinceEpoch;
     map['logdate'] = ExerciseLog.toDateString(log.timestamp);
-    map['logtime'] = ExerciseLog._toTimeString(log.timestamp);
+    map['logtime'] = ExerciseLog.toTimeString(log.timestamp);
     map['exercise'] = log.exercise;
     map['value'] = log.value;
     return map;
@@ -40,7 +40,7 @@ class ExerciseLog{
     String day = stamp.day.toString().padLeft(2, '0');
     return '$year-$month-$day';
   }
-  static String _toTimeString(DateTime stamp){
+  static String toTimeString(DateTime stamp){
     String hour = stamp.hour.toString().padLeft(2, '0');
     String minute = stamp.minute.toString().padLeft(2, '0');
     return '$hour:$minute';

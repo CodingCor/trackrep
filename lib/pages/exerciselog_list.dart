@@ -3,6 +3,10 @@ import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/exercise_log.dart';
 import 'package:trackrep/services/database.dart';
 
+import 'package:media_store_plus/media_store_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
 class ExerciseLogList extends StatefulWidget{
   const ExerciseLogList({super.key});
 
@@ -38,6 +42,12 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
               }
             }
           ), 
+          IconButton(
+            icon: const Icon(Icons.download), 
+            onPressed: (){
+
+            }
+          ), 
         ],
       ),
       body: ListView(
@@ -52,6 +62,39 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
     if(mounted){
       setState((){});
     }
+  }
+
+  void saveData()async{
+    
+    MediaStore store = MediaStore();
+    MediaStore.appFolder = 'trackrep';
+
+    Directory temp = await getTemporaryDirectory();
+    //
+    // exercise  list to download folder
+    File exerciseFile = File('${temp.path}/exercises.csv');
+    await exerciseFile.writeAsString('ID; Name; Type\n');
+    for(Exercise exercise in exercises){
+      await exerciseFile.writeAsString('${exercise.id};${exercise.name};${exercise.type}\n');
+    }
+    exerciseFile.create();
+    await store.saveFile(dirType: DirType.download, dirName: DirName.download, tempFilePath: exerciseFile.path, relativePath: FilePath.root);
+
+    File exerciseLogFile = File('${temp.path}/exercise_log.csv');
+    await exerciseLogFile.writeAsString('TIMESTAMP;DATE;TIME;Exercise;value\n');
+    for(ExerciseLog entry in log){
+
+      await exerciseLogFile.writeAsString('''
+        ${entry.timestamp.millisecondsSinceEpoch};
+        ${ExerciseLog.toDateString(entry.timestamp)};
+        ${ExerciseLog.toTimeString(entry.timestamp)};
+        ${entry.exercise.toString()};
+        ${entry.value.toString()}
+      ''');
+    }
+    exerciseLogFile.create();
+    await store.saveFile(dirType: DirType.download, dirName: DirName.download, tempFilePath: exerciseLogFile.path, relativePath: FilePath.root);
+
   }
 
   List<Widget> presentData(){
