@@ -18,16 +18,16 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
 
   List<Exercise> exercises = [];
   List<ExerciseLog> log = [];
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState(){
     super.initState();
-    loadData();
   }
+
   @override
   Widget build(BuildContext context){
-    List<Widget> entries = presentData();
-
+    loadData();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -58,15 +58,52 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
           ), 
         ],
       ),
-      body: ListView(
-        children: entries,
-      ),
+      body: body(),
+    );
+  }
+
+  Widget body(){
+    List<Widget> entries = presentData();
+    return Column(
+      children: <Widget>[
+        dateLine(),
+        const Divider(),
+        Expanded(
+          child: ListView(
+            children: entries,
+          )
+        ),
+      ],
+    );
+  }
+
+  Widget dateLine(){
+
+    return Row(
+      children: <Widget>[
+        Text("Date ${ExerciseLog.toDateString(selectedDate)}", style: Theme.of(context).textTheme.titleLarge),
+        const Spacer(),
+        IconButton(
+          icon: const Icon(Icons.calendar_month),
+          onPressed: ()async{
+            selectedDate = await showDatePicker(
+              context: context,
+              firstDate: DateTime.fromMillisecondsSinceEpoch(0),
+              initialDate: DateTime.now(),
+              lastDate: DateTime.now(),
+            ) ?? DateTime.now();
+            if(mounted){
+              setState((){});
+            }
+          }
+        ),
+      ],
     );
   }
 
   void loadData()async{
     exercises = await DatabaseConnector.getExercises(); 
-    log = await DatabaseConnector.getExerciseLog();
+    log = await DatabaseConnector.getExerciseLogForDate(selectedDate);
     if(mounted){
       setState((){});
     }

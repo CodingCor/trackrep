@@ -115,5 +115,16 @@ class DatabaseConnector{
     return logs;
   }
 
+  static Future<List<ExerciseLog>> getExerciseLogForDate(DateTime date) async{
+    String dateString = ExerciseLog.toDateString(date);
+    Database database = await getInstance();
+    List<Map<String, dynamic>> query = await database.query(
+      'exerciselog',
+      where: 'logdate="$dateString"'
+    );
+    List<ExerciseLog> logs = query.map((Map<String, dynamic> entry){return ExerciseLog.fromMap(entry);}).toList();
+    return logs;
+  }
+
   static List<String> databaseTables = [ Exercise.tableString, ExerciseLog.tableString]; 
 }
