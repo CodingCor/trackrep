@@ -33,15 +33,11 @@ class _ExerciseListState extends State<ExerciseList>{
         itemCount: exercises.length,
         itemBuilder: (BuildContext context, int id) {
           Exercise exercise = exercises[id];
-          return Dismissible(
-            onDismissed: (DismissDirection direction){removeExercise(id);},
-            key: UniqueKey(),
-            child:  ListTile(
-              onTap: (){
-                Navigator.pushNamed(context, '/exercise/perform', arguments: exercises[id]);
-              },
-              title: Text(exercise.name),
-            ),
+          return ListTile(
+            onTap: (){
+              Navigator.pushNamed(context, '/exercise/perform', arguments: exercises[id]);
+            },
+            title: Text(exercise.name),
           );
         }
       ),
