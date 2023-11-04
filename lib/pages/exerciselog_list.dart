@@ -128,6 +128,7 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
     // exercise log to file
     File exerciseLogFile = File('${temp.path}/exercise_log.txt');
     await exerciseLogFile.writeAsString('TIMESTAMP;DATE;TIME;Exercise;value\n');
+    List<ExerciseLog> log = await DatabaseConnector.getExerciseLog();
     for(ExerciseLog entry in log){
 
       String line = '';
