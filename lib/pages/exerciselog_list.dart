@@ -18,16 +18,17 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
 
   List<Exercise> exercises = [];
   List<ExerciseLog> log = [];
+  Map<int, List<String>> tableData = {};
   DateTime selectedDate = DateTime.now();
 
   @override
   void initState(){
+    loadData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context){
-    loadData();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -93,6 +94,7 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
               lastDate: DateTime.now(),
             ) ?? DateTime.now();
             if(mounted){
+              loadData();
               setState((){});
             }
           }
@@ -104,6 +106,14 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
   void loadData()async{
     exercises = await DatabaseConnector.getExercises(); 
     log = await DatabaseConnector.getExerciseLogForDate(selectedDate);
+    List<MapEntry<int, int>> uniqueCounts = await DatabaseConnector.getUniqueExercisesForDate(selectedDate);
+    tableData.clear();
+
+    for(MapEntry<int, int> entry in uniqueCounts){
+      List<String> repetitionsForExercise = log.where((ExerciseLog log){return log.exercise == entry.key;}).map((ExerciseLog log){return log.value.toString();}).toList();
+      tableData[entry.key] = repetitionsForExercise;
+    }
+
     if(mounted){
       setState((){});
     }
@@ -146,31 +156,39 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
   }
 
   List<Widget> presentData(){
-      List<Widget> listEntries = [];
-      String? dateStamp;
-      for(ExerciseLog entry in log){
-        // title line
-        if(dateStamp != ExerciseLog.toDateString(entry.timestamp)){
-          dateStamp = ExerciseLog.toDateString(entry.timestamp);
-          listEntries.add(ListTile(
-            title: Text(ExerciseLog.toDateString(entry.timestamp), style: const TextStyle(fontWeight: FontWeight.bold))
-          )); 
-        }
-
-        //exercise name
-        List<Exercise> exerciseListWhereIdMatches = exercises.where((Exercise exercise){return (exercise.id == entry.exercise);}).toList();
-        String exerciseName = '';
-        if(exerciseListWhereIdMatches.isNotEmpty){
-          exerciseName = exerciseListWhereIdMatches[0].name;
-        }
-
-        // log line
-        listEntries.add(ListTile(
-          title: Text(exerciseName),
-          trailing: Text(entry.value.toString()),
-        ));
-
+    List<Widget> listEntries = [];
+    for(MapEntry<int, List<String>> entry in tableData.entries){
+      List<Widget>  printColumn = [];
+      for(String data in entry.value){
+        printColumn.add(
+          Text(data, style: Theme.of(context).textTheme.bodyLarge),
+        );
       }
-      return listEntries;
+
+      listEntries.add(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(getExerciseName(entry.key), style: Theme.of(context).textTheme.bodySmall), 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: printColumn,
+            ),
+            const Divider(),
+          ]
+        ),
+      );      
+    }
+    return listEntries;
+  }
+
+  String getExerciseName(int exerciseId){
+    List<Exercise> exerciseListWhereIdMatches = exercises.where((Exercise exercise){return (exercise.id == exerciseId);}).toList();
+    if(exerciseListWhereIdMatches.isNotEmpty){
+      return exerciseListWhereIdMatches[0].name;
+    }
+    return "";
   }
 }

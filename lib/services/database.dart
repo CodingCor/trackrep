@@ -8,7 +8,6 @@ import 'dart:convert';
 //TODO: need a way to export the whole database to the device for later import 
 //  path_provider might help to get the download directory of the device
 //  permission_handler might help to get the appropriate permissions for the folder
-//  
 //  export the db as 2 files
 //    one containing the log
 //    one containing the names and type of the exercise
@@ -124,6 +123,21 @@ class DatabaseConnector{
     );
     List<ExerciseLog> logs = query.map((Map<String, dynamic> entry){return ExerciseLog.fromMap(entry);}).toList();
     return logs;
+  }
+
+  static Future<List<MapEntry<int, int>>> getUniqueExercisesForDate(DateTime date) async{
+    String dateString = ExerciseLog.toDateString(date);
+    Database database = await getInstance();
+    List<MapEntry<int, int>> uniqueCounts = [];
+    List<Map<String, dynamic>> query = await database.rawQuery(
+      'select count(*), exercise, logtime from exerciselog where logdate="$dateString" group by exercise order by logtime;'
+    );
+    for(Map<String, dynamic> entry in query){
+      int exercise = entry['exercise'];
+      int count = entry['count(*)'];
+      uniqueCounts.add(MapEntry<int, int>(exercise, count));
+    }
+    return uniqueCounts;
   }
 
   static List<String> databaseTables = [ Exercise.tableString, ExerciseLog.tableString]; 
