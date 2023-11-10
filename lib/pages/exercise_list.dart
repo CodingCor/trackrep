@@ -13,9 +13,7 @@ class ExerciseListPage extends StatefulWidget{
 
 class _ExerciseListPageState extends State<ExerciseListPage>{
 
-  List<Exercise> exercises = [];
-
-
+  ExerciseListController controller = ExerciseListController();
   String text = '';
   bool timedEvent = false;
 
@@ -29,7 +27,8 @@ class _ExerciseListPageState extends State<ExerciseListPage>{
       body: ExerciseList(
         onTap: (Exercise exercise){
           Navigator.pushNamed(context, '/exercise/perform', arguments: exercise);
-        }
+        },
+        controller: controller,
       ),
       floatingActionButton: IconButton(
         icon: const Icon(Icons.add),
@@ -64,6 +63,7 @@ class _ExerciseListPageState extends State<ExerciseListPage>{
     await DatabaseConnector.insertExercise(Exercise(name: text, type: (timedEvent) ? Exercise.timedEventType : Exercise.defaultType));
     if(mounted){
       Navigator.pop(context);
+      controller.loaded = false;
       setState((){});
     }
   }
