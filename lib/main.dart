@@ -8,7 +8,7 @@ import 'package:trackrep/pages/perform_exercise.dart';
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
   '/test' : (context) => const TestPage(),
-  '/exercise/list' : (context) => const ExerciseList(),
+  '/exercise/list' : (context) => const ExerciseListPage(),
   '/exercise_log/list' : (context) => const ExerciseLogList(),
   '/exercise/perform' : (context) => const PerformExercise(),
 };
