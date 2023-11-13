@@ -17,22 +17,32 @@ class ExerciseList extends StatefulWidget {
 class _ExerciseListState extends State<ExerciseList>{
   
   List<Exercise> exercises = [];
+  List<Exercise> queriedExercises = [];
 
-  String text = '';
-  bool timedEvent = false;
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context){
     if(!widget.controller.loaded){
       loadData();
     }
+    return Column(
+      children: <Widget>[
+        searchBar(),
+        const Divider(),
+        Expanded( child: exerciseList()),
+      ]
+    );
+  }
+
+  Widget exerciseList(){
     return ListView.builder(
-      itemCount: exercises.length,
+      itemCount: queriedExercises.length,
       itemBuilder: (BuildContext context, int id) {
-        Exercise exercise = exercises[id];
+        Exercise exercise = queriedExercises[id];
         return ListTile(
           onTap: (){
-            widget.onTap(exercises[id]);
+            widget.onTap(exercise);
           },
           title: Text(exercise.name),
         );
@@ -40,9 +50,32 @@ class _ExerciseListState extends State<ExerciseList>{
     );
   }
 
+  Widget searchBar(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(child: TextField( controller: controller)),
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: (){
+            loadData();
+          }
+        ),
+      ]
+    );
+  }
+
   void loadData()async{
     exercises = await DatabaseConnector.getExercises(); 
-    debugPrint('loaded');
+
+    if(controller.text.isNotEmpty){
+      queriedExercises = exercises.where((Exercise exercise){
+        return exercise.name.toLowerCase().contains(controller.text.toLowerCase());
+      }).toList(); 
+    }else{
+      queriedExercises = exercises;
+    }
+
     if(mounted){
       widget.controller.loaded = true;
       setState((){});
