@@ -5,6 +5,7 @@ class Exercise{
   ///types:
   /// R ... Rep based exercise
   /// T ... Time based exercise
+  /// P ... Rest time (Pause) between exercises
   String type;
 
   static const String tableString = 
@@ -18,6 +19,7 @@ class Exercise{
 
   static const String defaultType = 'R';
   static const String timedEventType = 'T';
+  static const String restTime = 'P';
 
   Exercise({this.id, required this.name, this.type = defaultType});
 

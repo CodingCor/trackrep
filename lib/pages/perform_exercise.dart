@@ -52,7 +52,7 @@ class _PerformExerciseState extends State<PerformExercise>{
   }
 
   void logExercise(Exercise exercise, int value)async{
-    if(exercise.id != null){
+    if(exercise.id != null && exercise.type != Exercise.restTime){
       await DatabaseConnector.insertExerciseLog(ExerciseLog(timestamp: DateTime.now(), value: value, exercise: exercise.id!));
     }
   }

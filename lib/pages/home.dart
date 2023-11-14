@@ -70,5 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
     await DatabaseConnector.insertExercise(Exercise(name: 'Shoulder Stretch Standing', type: Exercise.timedEventType));
     await DatabaseConnector.insertExercise(Exercise(name: 'Hip Thrusters'));
     await DatabaseConnector.insertExercise(Exercise(name: 'Half Bridge'));
+
+    // rest time
+    await DatabaseConnector.insertExercise(Exercise(name: 'Rest Time', type: Exercise.restTime));
   }
 }
