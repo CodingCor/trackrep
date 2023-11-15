@@ -26,6 +26,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.fitness_center_outlined), onPressed: (){
+            Navigator.pushNamed(context, "/workout/list");
+          }),
+          IconButton(icon: const Icon(Icons.fitness_center_outlined), onPressed: (){
             Navigator.pushNamed(context, "/exercise/list");
           }),
         ]

@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/exercise_log.dart';
+import 'package:trackrep/models/workout.dart';
 import 'dart:convert';
 
 //TODO: need a way to export the whole database to the device for later import 
@@ -22,8 +23,11 @@ class DatabaseConnector{
     Database database = await openDatabase(
       join(await getDatabasesPath(), 'trackrep.db'),
       onCreate: (Database db, int version) async {
-        for(String table in databaseTables){
-          await db.execute(table);
+        executeAll(db, databaseTables);
+      },
+      onUpgrade: (Database db, int versionBefore, int versionAfter) async{
+        if(versionAfter > 1) {
+          executeAll(db, databaseTablesVersion2);
         }
       },
       version: 1,
@@ -140,5 +144,12 @@ class DatabaseConnector{
     return uniqueCounts;
   }
 
+  static Future<void> executeAll(Database db, List<String> statements) async{
+    for(String table in statements){
+      await db.execute(table);
+    }
+  }
+
   static List<String> databaseTables = [ Exercise.tableString, ExerciseLog.tableString]; 
+  static List<String> databaseTablesVersion2 = [ Workout.tableString]; 
 }
