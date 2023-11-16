@@ -4,7 +4,7 @@ class Workout{
 
   static const String tableString = 
   '''
-    create table workout if not exists(
+    create table if not exists workout(
       id INTEGER primary key ASC,
       name varchar(60) unique
     );
