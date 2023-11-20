@@ -82,8 +82,13 @@ class _MyHomePageState extends State<MyHomePage> {
     await DatabaseConnector.insertWorkout(Workout(name: 'Workout 1'));
 
     List<Workout> workouts =  await DatabaseConnector.getWorkouts();
+    int id = 0;
     for(Workout workout in workouts){
-      print("${workout.id} - ${workout.name}");
+      id = workout.id!;
+      debugPrint("${workout.id} - ${workout.name}");
     }
+
+    Workout ?workout = await DatabaseConnector.getWorkout(id);
+    debugPrint("${workout?.id} - ${workout?.name}");
   }
 }
