@@ -25,11 +25,13 @@ class DatabaseConnector{
       join(await getDatabasesPath(), 'trackrep.db'),
       onCreate: (Database db, int version) async {
         for(List<String> versionStatements in databaseVersions.values){
+          print('database init version');
           executeAll(db, versionStatements);
         }
       },
       onUpgrade: (Database db, int versionBefore, int versionAfter) async{
         if(versionAfter > 1) {
+          print('databse upgrade version > 1');
           executeAll(db, databaseVersions[2]!);
         }
       },

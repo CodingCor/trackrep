@@ -3,6 +3,7 @@ import 'package:trackrep/widgets/timer.dart';
 
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/models/exercise.dart';
+import 'package:trackrep/models/workout.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -76,5 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // rest time
     await DatabaseConnector.insertExercise(Exercise(name: 'Rest Time', type: Exercise.restTime));
+
+
+    await DatabaseConnector.insertWorkout(Workout(name: 'Workout 1'));
+
+    List<Workout> workouts =  await DatabaseConnector.getWorkouts();
+    for(Workout workout in workouts){
+      print("${workout.id} - ${workout.name}");
+    }
   }
 }
