@@ -2,6 +2,7 @@ class Workout{
   int? id;
   String name;
 
+  static const String tableName = 'workout';
   static const String tableString = 
   '''
     create table if not exists workout(

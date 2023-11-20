@@ -45,6 +45,10 @@ class DatabaseConnector{
     );
   }
 
+  static Future<void> reset()async{
+    await deleteDatabase(join(await getDatabasesPath(), 'trackrep.db'));
+  }
+
   ///
   ///   Model Exercise Calls
   ///
@@ -65,10 +69,6 @@ class DatabaseConnector{
       where: "id = ?",
       whereArgs: [exerciseID.toString()]
     );
-  }
-
-  static Future<void> reset()async{
-    await deleteDatabase(join(await getDatabasesPath(), 'trackrep.db'));
   }
 
   static Future<Exercise?> getExercise(int id) async {
@@ -92,16 +92,9 @@ class DatabaseConnector{
     return exercises;
   }
 
-  static Future<void> printTables()async {
-    Database database = await getInstance();
-    List<Map<String, dynamic>> query = await database.rawQuery('select * from sqlite_master;');
-    for(Map<String, dynamic> entry in query){
-      print(jsonEncode(entry));
-    }
-  }
 
   ///
-  ///   Model ExerciseLog Calls
+  ///   model exerciselog calls
   ///
   static Future<void> insertExerciseLog(ExerciseLog log) async{
     Database database = await getInstance();
@@ -147,11 +140,60 @@ class DatabaseConnector{
     return uniqueCounts;
   }
 
+  ///
+  ///   model workout calls
+  ///
+  static Future<void> insertWorkout(Workout workout) async{
+    Database database = await getInstance();
+    await database.insert(
+      Workout.tableName,
+      Workout.toMap(workout),
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  static Future<List<Workout>> getWorkouts() async{
+    Database database = await getInstance();
+    List<Map<String, dynamic>> queryResult = await database.query(
+      Workout.tableName,
+    );
+    return queryResult.map((Map<String, dynamic> entry){return Workout.fromMap(entry);}).toList();
+  }
+
+  static Future<Workout?> getWorkout(int id) async{
+    Database database = await getInstance();
+    List<Map<String, dynamic>> queryResult = await database.query(
+      Workout.tableName,
+      where: "id=?",
+      whereArgs: [id]
+    );
+    if(queryResult.isEmpty) return null;
+    return Workout.fromMap(queryResult.elementAt(0));
+
+  }
+
+  ///
+  ///   Helper Functions
+  ///
+
   static Future<void> executeAll(Database db, List<String> statements) async{
     for(String table in statements){
       await db.execute(table);
     }
   }
+
+  static Future<void> printTables()async {
+    Database database = await getInstance();
+    List<Map<String, dynamic>> query = await database.rawQuery('select * from sqlite_master;');
+    for(Map<String, dynamic> entry in query){
+      print(jsonEncode(entry));
+    }
+  }
+
+
+  ///
+  ///   Members
+  ///
 
   static Map<int, List<String>> databaseVersions = {
     1 : [ Exercise.tableString, ExerciseLog.tableString],
