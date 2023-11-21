@@ -210,7 +210,7 @@ class DatabaseConnector{
   static Future<void> clearWorkout(Workout workout) async {
     Database database = await getInstance();
     await database.delete(
-      ExerciseOrder.tableString,
+      ExerciseOrder.tableName,
       where: 'workout=?',
       whereArgs: [workout.id]
     );

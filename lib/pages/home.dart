@@ -4,6 +4,9 @@ import 'package:trackrep/widgets/timer.dart';
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/workout.dart';
+import 'package:trackrep/models/exercise_order.dart';
+
+import 'dart:math';
 
 
 class MyHomePage extends StatefulWidget {
@@ -79,6 +82,25 @@ class _MyHomePageState extends State<MyHomePage> {
     await DatabaseConnector.insertExercise(Exercise(name: 'Rest Time', type: Exercise.restTime));
 
     //await DatabaseConnector.rawExecute("drop table exerciseorder;");
+    List<Exercise> exercises = await DatabaseConnector.getExercises();
+    List<Workout> workouts = await DatabaseConnector.getWorkouts();
+    if(workouts.isNotEmpty){
+      Random rng = Random();
+      await DatabaseConnector.fillWorkout(workouts[0], [
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+        exercises.elementAt(rng.nextInt(exercises.length - 1)),
+      ]);
+    }
+    List<ExerciseOrder> exerciseOrder = await DatabaseConnector.getExercisesForWorkout(workouts[0]);
+    for(ExerciseOrder exercise in exerciseOrder){
+      debugPrint("${exercise.workout} - ${exercise.order} - ${exercise.exercise}");
+    }
   }
+
+
 
 }
