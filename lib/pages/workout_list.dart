@@ -12,7 +12,6 @@ class WorkoutListPage extends StatefulWidget{
 class _WorkoutListPageState extends State<WorkoutListPage>{
 
   String text = '';
-  bool timedEvent = false;
 
   List<Workout> workoutList = [];
 
@@ -64,7 +63,7 @@ class _WorkoutListPageState extends State<WorkoutListPage>{
 
 
   void saveWorkout()async{
-    //await DatabaseConnector.insertExercise(Exercise(name: text, type: (timedEvent) ? Exercise.timedEventType : Exercise.defaultType));
+    await DatabaseConnector.insertWorkout(Workout(name: text));
     if(mounted){
       Navigator.pop(context);
       setState((){});
