@@ -78,17 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // rest time
     await DatabaseConnector.insertExercise(Exercise(name: 'Rest Time', type: Exercise.restTime));
 
-
-    await DatabaseConnector.insertWorkout(Workout(name: 'Workout 1'));
-
-    List<Workout> workouts =  await DatabaseConnector.getWorkouts();
-    int id = 0;
-    for(Workout workout in workouts){
-      id = workout.id!;
-      debugPrint("${workout.id} - ${workout.name}");
-    }
-
-    Workout ?workout = await DatabaseConnector.getWorkout(id);
-    debugPrint("${workout?.id} - ${workout?.name}");
+    //await DatabaseConnector.rawExecute("drop table exerciseorder;");
   }
+
 }

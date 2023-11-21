@@ -1,13 +1,13 @@
 class ExerciseOrder{
   int workout;
-  double order;
+  int order;
   int exercise;
 
   static const String tableString = 
   '''
     create table if not exists exerciseorder(
       workout INTEGER,
-      orderNumber REAL,
+      orderNumber INTEGER,
       exercise INTEGER 
     );
   ''';
@@ -24,7 +24,7 @@ class ExerciseOrder{
 
   static ExerciseOrder fromMap(Map<String, dynamic> data){
     int workout = 0;
-    double order = 0;
+    int order = 0;
     int exercise = 0;
     workout = data['workout'] ?? 0;
     order = data['orderNumber'] ?? 0.0;

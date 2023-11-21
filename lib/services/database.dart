@@ -175,8 +175,24 @@ class DatabaseConnector{
   }
 
   ///
+  ///   model exercise order calls
+  ///
+  static Future<void> fillWorkout(Workout workout, List<Exercise> exercises) async {
+    
+  }
+
+  static Future<void> clearWorkout(Workout workout) async {
+
+  }
+
+  ///
   ///   Helper Functions
   ///
+  //
+  static Future<void> rawExecute(String query)async{
+    Database database = await getInstance();
+    await database.execute(query);
+  }
 
   static Future<void> executeAll(Database db, List<String> statements) async{
     for(String table in statements){
