@@ -190,7 +190,21 @@ class DatabaseConnector{
         conflictAlgorithm: ConflictAlgorithm.ignore, 
       );
     }
+  }
 
+  static Future<List<ExerciseOrder>> getExercisesForWorkout(Workout workout) async{
+    Database databse = await getInstance();
+    List<ExerciseOrder> exercises = [];
+
+    List<Map<String, dynamic>> queryResult = await databse.query(
+      ExerciseOrder.tableName,
+      where: 'workout=?',
+      whereArgs: [workout.id]
+    );
+    for(Map<String, dynamic> entry in queryResult){
+      exercises.add(ExerciseOrder.fromMap(entry));
+    }
+    return exercises;
   }
 
   static Future<void> clearWorkout(Workout workout) async {
