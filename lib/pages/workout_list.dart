@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trackrep/models/workout.dart';
+import 'package:trackrep/services/database.dart';
 
 class WorkoutListPage extends StatefulWidget{
   const WorkoutListPage({super.key});
@@ -12,6 +14,14 @@ class _WorkoutListPageState extends State<WorkoutListPage>{
   String text = '';
   bool timedEvent = false;
 
+  List<Workout> workoutList = [];
+
+  @override
+  void initState(){
+    super.initState();
+    loadData();
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -19,11 +29,22 @@ class _WorkoutListPageState extends State<WorkoutListPage>{
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Workout List"),
       ),
-      body: Container(),
+      body: workoutListView(),
       floatingActionButton: IconButton(
         icon: const Icon(Icons.add),
         onPressed: addButtonAction,
       ),
+    );
+  }
+
+  Widget workoutListView(){
+    return ListView.builder(
+      itemCount: workoutList.length,
+      itemBuilder: (BuildContext context, int index){
+        return ListTile(
+          title: Text(workoutList[index].name) 
+        );
+      }
     );
   }
 
@@ -48,5 +69,10 @@ class _WorkoutListPageState extends State<WorkoutListPage>{
       Navigator.pop(context);
       setState((){});
     }
+  }
+
+  void loadData() async {
+    workoutList = await DatabaseConnector.getWorkouts(); 
+    setState((){});
   }
 }
