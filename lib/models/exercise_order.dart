@@ -3,6 +3,7 @@ class ExerciseOrder{
   int order;
   int exercise;
 
+  static const String tableName = 'exerciseorder';
   static const String tableString = 
   '''
     create table if not exists exerciseorder(

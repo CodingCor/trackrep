@@ -178,11 +178,28 @@ class DatabaseConnector{
   ///   model exercise order calls
   ///
   static Future<void> fillWorkout(Workout workout, List<Exercise> exercises) async {
-    
+    await clearWorkout(workout);
+    Database database  = await getInstance(); 
+
+    int order = 1;
+    for(Exercise exercise in exercises){
+      ExerciseOrder exerciseOrder = ExerciseOrder(workout: workout.id ?? 0, exercise: exercise.id ?? 0, order: order);
+      await database.insert(
+        ExerciseOrder.tableName,
+        ExerciseOrder.toMap(exerciseOrder),  
+        conflictAlgorithm: ConflictAlgorithm.ignore, 
+      );
+    }
+
   }
 
   static Future<void> clearWorkout(Workout workout) async {
-
+    Database database = await getInstance();
+    await database.delete(
+      ExerciseOrder.tableString,
+      where: 'workout=?',
+      whereArgs: [workout.id]
+    );
   }
 
   ///
