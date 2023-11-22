@@ -225,6 +225,14 @@ class DatabaseConnector{
     await database.execute(query);
   }
 
+  static Future<void> rawQuery(String query) async {
+    Database database = await getInstance();
+    List<Map<String, dynamic>> queryResult = await database.rawQuery(query);
+    for(Map<String, dynamic> entry in queryResult){
+      print(jsonEncode(entry));
+    }
+  }
+
   static Future<void> executeAll(Database db, List<String> statements) async{
     for(String table in statements){
       await db.execute(table);
