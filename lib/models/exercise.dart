@@ -8,6 +8,7 @@ class Exercise{
   /// P ... Rest time (Pause) between exercises
   String type;
 
+  static const String tableName = 'exercise';
   static const String tableString = 
   '''
     create table exercise (

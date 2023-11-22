@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/services/database.dart';
 
+
+//TODO: argument from parent page containing the workout 
+
 class WorkoutExercisesPage extends StatefulWidget{
   const WorkoutExercisesPage({super.key});
 

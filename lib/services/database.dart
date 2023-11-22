@@ -189,20 +189,24 @@ class DatabaseConnector{
         ExerciseOrder.toMap(exerciseOrder),  
         conflictAlgorithm: ConflictAlgorithm.ignore, 
       );
+      order++;
     }
   }
 
-  static Future<List<ExerciseOrder>> getExercisesForWorkout(Workout workout) async{
+  static Future<List<Exercise>> getExercisesForWorkout(Workout workout) async{
     Database databse = await getInstance();
-    List<ExerciseOrder> exercises = [];
+    List<Exercise> exercises = [];
 
-    List<Map<String, dynamic>> queryResult = await databse.query(
-      ExerciseOrder.tableName,
-      where: 'workout=?',
-      whereArgs: [workout.id]
+    List<Map<String, dynamic>> queryResult = await databse.rawQuery(
+      '''
+      select * from ${Exercise.tableName}
+      join ${ExerciseOrder.tableName} on ${ExerciseOrder.tableName}.exercise = ${Exercise.tableName}.id
+      where workout = ?
+      ''',
+      [workout.id] 
     );
     for(Map<String, dynamic> entry in queryResult){
-      exercises.add(ExerciseOrder.fromMap(entry));
+      exercises.add(Exercise.fromMap(entry));
     }
     return exercises;
   }

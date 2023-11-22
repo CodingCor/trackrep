@@ -95,9 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
         exercises.elementAt(rng.nextInt(exercises.length - 1)),
       ]);
     }
-    List<ExerciseOrder> exerciseOrder = await DatabaseConnector.getExercisesForWorkout(workouts[0]);
-    for(ExerciseOrder exercise in exerciseOrder){
-      debugPrint("${exercise.workout} - ${exercise.order} - ${exercise.exercise}");
+    List<Exercise> exerciseOrder = await DatabaseConnector.getExercisesForWorkout(workouts[0]);
+    for(Exercise exercise in exerciseOrder){
+      debugPrint("${exercise.id} - ${exercise.name}");
     }
 
     //await DatabaseConnector.rawQuery('select * from exercise where id in (select exercise from exerciseorder where workout = 1);');
