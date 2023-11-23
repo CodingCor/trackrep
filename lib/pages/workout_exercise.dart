@@ -55,14 +55,29 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
   }
 
   Widget exerciseListView(){
-    return ListView.builder(
-      itemCount: exercises.length,
-      itemBuilder: (BuildContext context, int index){
-        return ListTile(
-          title: Text(exercises[index].name) 
-        );
-      }
+    return ReorderableListView(
+      onReorder: (int oldIndex, int newIndex){
+        if(oldIndex < newIndex){
+          newIndex -= 1;
+        }
+        Exercise exercise = exercises.elementAt(oldIndex);
+        exercises.removeAt(oldIndex);
+        exercises.insert(newIndex, exercise);
+        setState((){});
+      },
+      children: exercises.map((Exercise exercise){return ListTile(
+        key: UniqueKey(),
+        title: Text(exercise.name),
+      );}).toList(), 
     );
+    //return ListView.builder(
+    //  itemCount: exercises.length,
+    //  itemBuilder: (BuildContext context, int index){
+    //    return ListTile(
+    //      title: Text(exercises[index].name) 
+    //    );
+    //  }
+    //);
   }
 
   void addButtonAction(){
