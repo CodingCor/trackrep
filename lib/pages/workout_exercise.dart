@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackrep/models/exercise.dart';
+import 'package:trackrep/models/workout.dart';
 import 'package:trackrep/services/database.dart';
 
 
@@ -16,19 +17,25 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
 
 
   List<Exercise> exercises = [];
+  Workout workout = Workout(name: '');
+  bool loaded = false;
 
   @override
   void initState(){
     super.initState();
-    loadData();
   }
 
   @override
   Widget build(BuildContext context){
+    Object? obj = ModalRoute.of(context)!.settings.arguments;
+    if(obj != null && obj is Workout){
+      workout = obj;
+    }
+    loadData();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Workout List"),
+        title: Text("Exercise List for Workout ${workout.name}"),
       ),
       body: exerciseListView(),
       floatingActionButton: IconButton(
@@ -65,6 +72,11 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
 
 
   void loadData() async {
-    setState((){});
+    if(loaded) return;
+    exercises = await DatabaseConnector.getExercisesForWorkout(workout);
+    if(mounted){
+      setState((){});
+    }
+    loaded = true;
   }
 }

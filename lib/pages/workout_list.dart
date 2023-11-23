@@ -41,7 +41,10 @@ class _WorkoutListPageState extends State<WorkoutListPage>{
       itemCount: workoutList.length,
       itemBuilder: (BuildContext context, int index){
         return ListTile(
-          title: Text(workoutList[index].name) 
+          title: Text(workoutList[index].name) ,
+          onTap: (){
+            Navigator.pushNamed(context, '/workout/exercises', arguments: workoutList[index]);
+          }
         );
       }
     );

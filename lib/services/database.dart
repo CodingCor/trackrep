@@ -203,7 +203,7 @@ class DatabaseConnector{
       join ${ExerciseOrder.tableName} on ${ExerciseOrder.tableName}.exercise = ${Exercise.tableName}.id
       where workout = ?
       ''',
-      [workout.id] 
+      [workout.id ?? 0] 
     );
     for(Map<String, dynamic> entry in queryResult){
       exercises.add(Exercise.fromMap(entry));

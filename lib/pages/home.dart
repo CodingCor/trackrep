@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     //await DatabaseConnector.rawQuery('select * from exercise where id in (select exercise from exerciseorder where workout = 1);');
-    await DatabaseConnector.rawQuery('select * from exerciseorder join exercise on exerciseorder.exercise = exercise.id where workout = 1;');
+    //await DatabaseConnector.rawQuery('select * from exerciseorder join exercise on exerciseorder.exercise = exercise.id where workout = 1;');
   }
 
 

@@ -5,6 +5,7 @@ import 'package:trackrep/pages/exercise_list.dart';
 import 'package:trackrep/pages/exerciselog_list.dart';
 import 'package:trackrep/pages/perform_exercise.dart';
 import 'package:trackrep/pages/workout_list.dart';
+import 'package:trackrep/pages/workout_exercise.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
@@ -13,6 +14,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/exercise_log/list' : (context) => const ExerciseLogList(),
   '/exercise/perform' : (context) => const PerformExercise(),
   '/workout/list' : (context) => const WorkoutListPage(),
+  '/workout/exercises' : (context) => const WorkoutExercisesPage(),
 };
 
 ThemeData data = ThemeData(
