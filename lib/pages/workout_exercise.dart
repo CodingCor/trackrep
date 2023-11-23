@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/workout.dart';
 import 'package:trackrep/services/database.dart';
+import 'package:trackrep/widgets/exercise_list.dart';
 
 
 //TODO: argument from parent page containing the workout 
@@ -36,6 +37,14 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Exercise List for Workout ${workout.name}"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save_outlined),
+            onPressed: (){
+              DatabaseConnector.fillWorkout(workout, exercises);
+            },
+          ),
+        ]
       ),
       body: exerciseListView(),
       floatingActionButton: IconButton(
@@ -68,6 +77,16 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
     //    ),
     //  );
     //});
+    showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(content: ExerciseList(
+        onTap: (Exercise exercise){
+          exercises.add(exercise);
+          Navigator.pop(context);
+          setState((){});
+        },
+        controller: ExerciseListController()
+      ));
+    });
   }
 
 
