@@ -32,17 +32,19 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
     if(obj != null && obj is Workout){
       workout = obj;
     }
+    if(loaded){
+      DatabaseConnector.fillWorkout(workout, exercises);
+    }
     loadData();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Exercise List for Workout ${workout.name}"),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save_outlined),
-            onPressed: (){
-              DatabaseConnector.fillWorkout(workout, exercises);
-            },
+            icon: const Icon(Icons.timer_outlined),
+            onPressed: (){}
           ),
         ]
       ),
@@ -65,33 +67,22 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
         exercises.insert(newIndex, exercise);
         setState((){});
       },
-      children: exercises.map((Exercise exercise){return ListTile(
-        key: UniqueKey(),
-        title: Text(exercise.name),
-      );}).toList(), 
+      children: exercises.map((Exercise exercise){
+        return Dismissible(
+          key: UniqueKey(),
+          onDismissed: (DismissDirection direction){
+            exercises.remove(exercise);
+            setState((){});
+          },
+          child: ListTile(
+            title: Text(exercise.name),
+          ),
+        );
+      }).toList(), 
     );
-    //return ListView.builder(
-    //  itemCount: exercises.length,
-    //  itemBuilder: (BuildContext context, int index){
-    //    return ListTile(
-    //      title: Text(exercises[index].name) 
-    //    );
-    //  }
-    //);
   }
 
   void addButtonAction(){
-    //showDialog(context: context, builder: (BuildContext context){
-    //  return AlertDialog(
-    //    content: Column(
-    //      mainAxisSize: MainAxisSize.min,
-    //      children: <Widget>[
-    //        TextField(onChanged: (String value){text = value;}),
-    //        TextButton(onPressed: saveWorkout, child: const Text("Save")),
-    //      ],
-    //    ),
-    //  );
-    //});
     showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(content: ExerciseList(
         onTap: (Exercise exercise){
