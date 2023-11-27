@@ -76,6 +76,9 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
           },
           child: ListTile(
             title: Text(exercise.name),
+            onTap: (){
+              Navigator.pushNamed(context, '/exercise/perform', arguments: exercise);
+            }
           ),
         );
       }).toList(), 
