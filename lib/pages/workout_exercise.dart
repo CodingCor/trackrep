@@ -70,6 +70,16 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
       children: exercises.map((Exercise exercise){
         return Dismissible(
           key: UniqueKey(),
+          background: Container(
+            color: Theme.of(context).colorScheme.error,
+            child: Row(
+              children: <Widget>[
+                const SizedBox(width: 8.0),
+                Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.onError),
+                const Spacer(),
+              ]
+            ),
+          ),
           onDismissed: (DismissDirection direction){
             exercises.remove(exercise);
             setState((){});
