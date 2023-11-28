@@ -44,7 +44,9 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
         actions: [
           IconButton(
             icon: const Icon(Icons.timer_outlined),
-            onPressed: (){}
+            onPressed: (){
+              Navigator.pushNamed(context, '/timer');
+            }
           ),
         ]
       ),
