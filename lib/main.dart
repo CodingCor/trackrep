@@ -6,9 +6,11 @@ import 'package:trackrep/pages/exerciselog_list.dart';
 import 'package:trackrep/pages/perform_exercise.dart';
 import 'package:trackrep/pages/workout_list.dart';
 import 'package:trackrep/pages/workout_exercise.dart';
+import 'package:trackrep/pages/landing_page.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
+  '/landing' : (context) => const LandingPage(title: "TrackRep"),
   '/test' : (context) => const TestPage(),
   '/exercise/list' : (context) => const ExerciseListPage(),
   '/exercise_log/list' : (context) => const ExerciseLogList(),
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       title: 'TrackRep',
       theme: data,
       routes: routes,
-      initialRoute: '/home',
+      initialRoute: '/landing',
     );
   }
 }
