@@ -18,6 +18,7 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
 
 
   List<Exercise> exercises = [];
+  Exercise? lastActiveExercise;
   Workout workout = Workout(name: '');
   bool loaded = false;
 
@@ -87,9 +88,14 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
             setState((){});
           },
           child: ListTile(
+            tileColor: (lastActiveExercise == exercise) ? Theme.of(context).colorScheme.inversePrimary : null,
             title: Text(exercise.name),
             onTap: (){
+              lastActiveExercise = exercise;
               Navigator.pushNamed(context, '/exercise/perform', arguments: exercise);
+              if(mounted){
+                setState((){});
+              }
             }
           ),
         );
