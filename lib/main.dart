@@ -7,10 +7,12 @@ import 'package:trackrep/pages/perform_exercise.dart';
 import 'package:trackrep/pages/workout_list.dart';
 import 'package:trackrep/pages/workout_exercise.dart';
 import 'package:trackrep/pages/landing_page.dart';
+import 'package:trackrep/pages/timer_page.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/home' : (context) => const MyHomePage(title: "TrackRep"),
   '/landing' : (context) => const LandingPage(title: "TrackRep"),
+  '/timer' : (context) => const TimerPage(),
   '/test' : (context) => const TestPage(),
   '/exercise/list' : (context) => const ExerciseListPage(),
   '/exercise_log/list' : (context) => const ExerciseLogList(),

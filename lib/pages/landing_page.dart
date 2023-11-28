@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget{
           tile(context, "Exercises",  "Add and perform Exercises",      '/exercise/list'),
           tile(context, "Workouts",   "Add and perform Workouts",       '/workout/list'),
           tile(context, "Log",        "View past performed Exercises",  '/exercise_log/list'),
-          tile(context, "Stopwatch",  "A simple Stopwatch",             '/home'),
+          tile(context, "Stopwatch",  "A simple Stopwatch",             '/timer'),
         ]
       ) 
     );
