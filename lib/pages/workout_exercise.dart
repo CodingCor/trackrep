@@ -44,6 +44,12 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
         title: Text("Exercise List for Workout ${workout.name}"),
         actions: [
           IconButton(
+            icon: const Icon(Icons.list_outlined),
+            onPressed: (){
+              Navigator.pushNamed(context, '/exercise_log/list');
+            }
+          ),
+          IconButton(
             icon: const Icon(Icons.timer_outlined),
             onPressed: (){
               Navigator.pushNamed(context, '/timer');
