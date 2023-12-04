@@ -3,6 +3,7 @@ import 'package:trackrep/models/exercise.dart';
 import 'package:trackrep/models/workout.dart';
 import 'package:trackrep/services/database.dart';
 import 'package:trackrep/widgets/exercise_list.dart';
+import 'package:trackrep/widgets/timer.dart';
 
 
 //TODO: argument from parent page containing the workout 
@@ -21,6 +22,7 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
   Exercise? lastActiveExercise;
   Workout workout = Workout(name: '');
   bool loaded = false;
+  int index = 0;
 
   @override
   void initState(){
@@ -50,14 +52,27 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
             }
           ),
           IconButton(
-            icon: const Icon(Icons.timer_outlined),
+            icon: (index == 0) ? const Icon(Icons.timer_outlined) : const Icon(Icons.fitness_center_outlined),
             onPressed: (){
-              Navigator.pushNamed(context, '/timer');
+              if(index == 0){
+                index = 1;
+              }else{
+                index = 0;
+              }
+              if(mounted){
+                setState((){});
+              }
             }
           ),
         ]
       ),
-      body: exerciseListView(),
+      body: IndexedStack(
+        index: index,
+        children: <Widget>[
+          exerciseListView(),
+          const Timer(),
+        ]
+      ),
       floatingActionButton: IconButton(
         icon: const Icon(Icons.add),
         onPressed: addButtonAction,
