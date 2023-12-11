@@ -35,15 +35,6 @@ class _ExerciseLogListState extends State<ExerciseLogList>{
         title: const Text("Exercise Log"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.delete), 
-            onPressed: ()async{
-              await DatabaseConnector.reset(); 
-              if(mounted){
-                setState((){});
-              }
-            }
-          ), 
-          IconButton(
             icon: const Icon(Icons.download), 
             onPressed: ()async{
               await saveData();
