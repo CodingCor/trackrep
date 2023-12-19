@@ -40,43 +40,40 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
     }
     loadData();
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Exercise List for Workout ${workout.name}"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.list_outlined),
-            onPressed: (){
-              Navigator.pushNamed(context, '/exercise_log/list');
-            }
-          ),
-          IconButton(
-            icon: (index == 0) ? const Icon(Icons.timer_outlined) : const Icon(Icons.fitness_center_outlined),
-            onPressed: (){
-              if(index == 0){
-                index = 1;
-              }else{
-                index = 0;
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text("Exercise List for Workout ${workout.name}"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.list_outlined),
+              onPressed: (){
+                Navigator.pushNamed(context, '/exercise_log/list');
               }
-              if(mounted){
-                setState((){});
-              }
-            }
+            ),
+          ],
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.timer_outlined)),
+              Tab(icon: Icon(Icons.fitness_center_outlined)),
+            ] 
           ),
-        ]
-      ),
-      body: IndexedStack(
-        index: index,
-        children: <Widget>[
-          exerciseListView(),
-          const Timer(),
-        ]
-      ),
-      floatingActionButton: IconButton(
-        icon: const Icon(Icons.add),
-        onPressed: addButtonAction,
-      ),
+        ),
+        body: TabBarView(
+          children: [
+            exerciseListView(),
+            const Timer(),
+          ]
+        ),
+        floatingActionButton: IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: (){
+            debugPrint("${DefaultTabController.of(context).index}");
+          }//addButtonAction,
+        ),
+      )
     );
   }
 
