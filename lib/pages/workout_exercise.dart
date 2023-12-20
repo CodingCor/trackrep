@@ -69,9 +69,7 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
         ),
         floatingActionButton: IconButton(
           icon: const Icon(Icons.add),
-          onPressed: (){
-            debugPrint("${DefaultTabController.of(context).index}");
-          }//addButtonAction,
+          onPressed: addButtonAction,
         ),
       )
     );
