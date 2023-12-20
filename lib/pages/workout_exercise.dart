@@ -88,6 +88,7 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
       },
       children: exercises.map((Exercise exercise){
         return Dismissible(
+          direction: DismissDirection.startToEnd,
           key: UniqueKey(),
           background: Container(
             color: Theme.of(context).colorScheme.error,
