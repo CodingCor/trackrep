@@ -36,18 +36,17 @@ class Timer extends StatefulWidget {
   State<Timer> createState() => _TimerState();
 }
 
-class _TimerState extends State<Timer> {
+class _TimerState extends State<Timer> with AutomaticKeepAliveClientMixin{
   
   Stopwatch stopwatch = Stopwatch();
   bool onFinishExecuted = false;
 
-  @override 
-  void initState(){
-    super.initState();
-  }
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if(stopwatch.isRunning){
       resetStateIn(const Duration(milliseconds: 100));
     }
