@@ -56,8 +56,8 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage>{
           ],
           bottom: const TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.timer_outlined)),
               Tab(icon: Icon(Icons.fitness_center_outlined)),
+              Tab(icon: Icon(Icons.timer_outlined)),
             ] 
           ),
         ),
